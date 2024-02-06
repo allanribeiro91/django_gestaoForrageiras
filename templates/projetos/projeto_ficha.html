@@ -1,0 +1,230 @@
+{% extends 'main/base_main.html' %}
+{% load static %}
+{% load custom_filters %}
+{% load humanize %}
+{% block extra_head %}    
+    <link rel="stylesheet" href="{% static 'styles/projeto_ficha.css' %}">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+{% endblock %}
+{% block content %}    
+    
+    <!-- Caminho da Área de Trabalho -->
+    <div class="breadcrumb2">
+        <i class="fa-solid fa-file-contract"></i>&nbsp;Projetos / Ficha do Projeto / Dados Gerais
+    </div>
+
+    <!-- Barra Superior -->
+    <div class="barra-superior">
+        <!-- Abas -->
+        <div class="tab-voltar">
+            <a href="{% url 'projetos' %}" style="color: black;">
+                <i class="fas fa-arrow-left"></i> 
+            </a>
+        </div>
+        <div class="tabs">
+            <button class="tab-button active" id="projeto_ficha_dados_gerais">Dados Gerais</button>
+            <button class="tab-button" id="projeto_ficha_execucao_financeira">Execução Financeira</button>
+        </div>
+    </div>
+
+    <div class="area-scroll">
+        <!-- form denominacoes_genericas -->
+            <form id="projetoForm" method="POST">
+            {% csrf_token %}
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="button" class="btn btn-danger" id="btnDeletarArp" style="font-size: 12px; background-color: rgb(58, 58, 58); border-color: rgb(58, 58, 58);">
+                    <i class="fas fa-trash-alt"></i>
+                    Deletar
+                </button>
+                
+                <button class="btn btn-primary me-md-2" type="submit" id="btnSalvarProjeto" style="font-size: 12px;">
+                    <i class="fas fa-save me-1"></i> 
+                    Salvar
+                </button>
+            </div>
+            
+            <div class="horizontal-sections">
+                <div class="section-log">
+                    <h3>Log</h3>
+                    <div class="grid-log">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control log_edicoes" id="id_projeto" name="id_projeto" readonly value="{{ form.instance.id|default_if_none:'' }}">
+                            <label for="floatingInput">ID</label>
+                        </div>                        
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control log_data" id="log_data_registro" name="log_data_registro" readonly value="{{ projeto.registro_data|date:"d/m/Y H:i:s" }}">
+                            <label for="floatingInput">Data do Registro</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control log_responsavel" id="log_responsavel_registro" name="log_responsavel_registro" readonly value="{{ projeto.usuario_registro.nome_completo }}">
+                            <label for="floatingInput">Responsável pelo Registro</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control log_data" id="lot_ult_atualizacao" name="lot_ult_atualizacao" readonly value="{{ projeto.ult_atual_data|date:"d/m/Y H:i:s" }}">
+                            <label for="floatingInput">Última Atualização</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control log_responsavel" id="log_responsavel_atualizacao" name="log_responsavel_atualizacao" readonly value="{{ projeto.usuario_atualizacao.nome_completo }}">
+                            <label for="floatingInput">Responsável Atualização</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control log_edicoes" style="width: 100px;" id="log_edicoes" name="log_edicoes" readonly value="{{ projeto.log_n_edicoes }}">
+                            <label for="floatingInput">Nº Edições</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+
+            <div class="horizontal-sections">
+                <div class="section">
+                    <h3>Dados Administrativos</h3>
+                    
+                    <div class="grid" style="font-size: 14px;">
+                        <div class="form-floating mb-3">
+                            {{ form.status }}
+                            <label>{{ form.status.label }}</label>
+                        </div>
+                        <div class="form-floating mb-3 full-width">
+                            {{ form.nome_plano_trabalho }}
+                            <label>{{ form.nome_plano_trabalho.label }}</label>
+                        </div>
+                        <div class="form-floating">                            
+                            {{ form.regional }}
+                            <label>{{ form.regional.label }}</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            {{ form.subprograma }}
+                            <label>{{ form.subprograma.label }}</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            {{ form.geracao_projeto }}
+                            <label>{{ form.geracao_projeto.label }}</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="date" class="form-control" id="id_data_inicio" name="data_inicio" value="{% if form.data_inicio.value %}{{ form.data_inicio.value|date:'Y-m-d' }}{% endif %}" style="width: 130px;">
+                            <label>Data Início*</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="date" class="form-control" id="id_data_fim" name="data_fim" value="{% if form.data_fim.value %}{{ form.data_fim.value|date:'Y-m-d' }}{% endif %}" style="width: 130px;">
+                            <label>Data Fim*</label>
+                        </div>      
+                        <div class="form-floating mb-3">
+                            {{ form.gestor_dateg }}
+                            <label>{{ form.gestor_dateg.label }}</label>
+                        </div>                  
+                    </div>
+                    
+                    <div class="grid" style="font-size: 14px;">
+                        <div class="form-floating full-width">                            
+                            {{ form.id_projeto_sisateg }}
+                            <label>{{ form.id_projeto_sisateg.label }}</label>
+                        </div>
+                        <div class="form-floating mb-3 full-width">
+                            {{ form.n_processo }}
+                            <label>{{ form.n_processo.label }}</label>
+                        </div>
+                        <div class="form-floating full-width">                            
+                            {{ form.termo_adesao }}
+                            <label>{{ form.termo_adesao.label }}</label>
+                        </div>
+                        <div class="form-floating full-width">                            
+                            {{ form.n_plano_trabalho }}
+                            <label>{{ form.n_plano_trabalho.label }}</label>
+                        </div>
+                        <div class="form-floating mb-3 full-width">
+                            {{ form.n_reformulacoes }}
+                            <label>{{ form.n_reformulacoes.label }}</label>
+                        </div>
+                        <div class="form-floating mb-3 full-width">
+                            {{ form.n_docs }}
+                            <label>{{ form.n_docs.label }}</label>
+                        </div>
+                        <div class="form-floating mb-3 full-width">
+                            {{ form.n_aviso_encerramento }}
+                            <label>{{ form.n_aviso_encerramento.label }}</label>
+                        </div>
+                        <div class="form-floating mb-3 full-width">
+                            {{ form.n_prestacao_contas }}
+                            <label>{{ form.n_prestacao_contas.label }}</label>
+                        </div>
+                                              
+                    </div>
+                    
+                    <div class="grid" style="font-size: 14px;">
+                        
+                    </div>  
+                </div>
+            </div>
+
+            
+            <div class="horizontal-sections">
+                <div class="section">
+                    <h3>Atividades Produtivas</h3>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end" style="font-size: 14px; text-align: right !important;">
+                        <button class="btn btn-primary me-md-2" type="button" data-bs-toggle="modal"  id="btnInserirAtividade" style="font-size: 12px; background-color: green; border-color: green;">
+                            <i class="fas fa-plus" style="font-size: 14px;"></i> 
+                            &nbsp;Inserir Atividade
+                        </button>
+                    </div>
+
+                    <div class="grid" style="font-size: 14px;">
+                        <table class="table table-striped table-hover fixed-size-table" style="font-size: 12px;" id="tabItensARP">
+                            <thead>
+                                <tr>
+                                    <th class="col-atividade">Atividade</th>
+                                    <th class="col-valor">Nº de Propriedades</th>
+                                    <th class="col-valor">Nº de Cadernos</th>
+                                    <th class="col-valor">Nº de Técnicos</th>
+                                    <th class="col-valor">Nº de Supervisores</th>
+                                    <th class="col-valor">Nº de Téc./Superv. EAD</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in tab_atividades_produtivas %}
+                                <tr data-id="{{ item.id }}">
+                                    <td class="col-atividade">{{ item.numero_item }}</td>
+                                    <td class="col-valor">{{ item.produto.produto }}</td>
+                                    <td class="col-valor">{{ item.tipo_cota }}</td>
+                                    <td class="col-valor"></td>
+                                </tr>
+                                {% endfor %}
+                                <!-- Linha do Valor Total
+                                <tr>
+                                    <td colspan="5" style="text-align: right; font-weight: bold;">Valor Total:</td>
+                                    <td class="col-valor" style="font-weight: bold;">{{ qtd_registrada_total_arp|floatformat:0|intcomma }}</td>
+                                    <td class="col-valor" style="font-weight: bold;">{{ valor_total_arp|format_number }}</td>
+                                    <td class="col-valor" style="font-weight: bold;">0</td>
+                                    <td class="col-saldo" style="font-weight: bold;">{{ qtd_saldo_total_arp|floatformat:0|intcomma }}</td>
+                                    <td class="col-saldo" style="font-weight: bold;">{{ qtd_saldo_total_arp_percentual|format_percent}}</td>
+                                </tr> -->
+                            </tbody>
+                        </table> 
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>Observações Gerais</h3>
+                <div class="grid" style="font-size: 14px;">
+                    <div class="form-floating mb-3 full-width">
+                        <!-- <textarea class="form-control auto-expand" id="arp_observacoes_gerais" name="observacoes_gerais" rows="1" style="padding-top: 10px; height: 120px;">{{ form.instance.observacoes_gerais|default_if_none:'Sem observações.' }}</textarea> -->
+                        {{ form.observacoes_gerais }}
+                    </div> 
+                    
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    <!-- Modal -->
+    {% include "projetos/projeto_atividade_modal.html" %}  
+
+
+    <!-- Scripts -->
+    <script src="{% static 'js/projeto_ficha.js' %}"></script>
+
+    
+
+{% endblock %}

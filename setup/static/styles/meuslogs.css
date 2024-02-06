@@ -1,0 +1,106 @@
+/*<!-- Barra Superior --> */
+/* Estilização para a barra superior para utilizar flexbox */
+.barra-superior {
+    display: flex;
+    justify-content: space-between; /* Alinha horizontalmente */
+    align-items: center; /* Alinha verticalmente */
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+/* Estilização para as abas */
+.tabs {
+    display: flex;
+    border-bottom: 1px solid #E5E5E5;
+    margin-bottom: 20px;
+    font-size: 12px;
+    width: 100%;  /* Define a largura para 80% */
+}
+
+/* Estilização para os botões */
+.buttons {
+    width: 20%;  /* Define a largura para 20% */
+    display: flex;
+    justify-content: flex-end; /* Alinha o conteúdo à direita */
+    margin-bottom: 20px;
+    margin-right: 10px;
+}
+
+/* Estilização para os botões das abas */
+.tab-button {
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: #000;
+    font-weight: normal;
+    border-bottom: 2px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    
+}
+
+/* Estilização para os ícones nos botões das abas */
+.tab-button i {
+    margin-right: 8px;
+}
+
+/* Estilização para a aba ativa */
+.tab-button.active {
+    border-bottom: 2px solid #000;
+    font-weight: bold;
+}
+
+/* Estilização para a aba ao passar o mouse */
+.tab-button:hover {
+    opacity: 0.7;
+}
+
+
+
+.section-tabela {
+    margin: 10px 10px 10px 10px;
+    padding: 0px 10px 10px 10px;
+    background-color: #FFF;
+    border: 1px solid #E5E5E5;
+    border-radius: 5px;
+    width: 98.9%;
+    max-height: 85vh; /* ajuste este valor conforme necessário */
+    overflow-y: auto;
+  }
+
+table tbody tr:hover {
+    cursor: pointer;
+}
+
+
+/*--colunas--*/
+.log-id {
+    width: 3% !important;
+}
+.log-usuario {
+    width: 22% !important;
+    text-align: left !important;
+}
+.log-data {
+    width: 12% !important;
+    text-align: center !important;
+}
+.log-modulo {
+    width: 15% !important;
+    text-align: left !important;
+}
+
+.log-acao {
+    width: 10% !important;
+    text-align: center !important;
+}
+.log-descricao {
+    width: 40% !important;
+    text-align: left !important;
+}
+
+.acesso-data {
+    width: 10% !important;
+    text-align: center !important;
+}

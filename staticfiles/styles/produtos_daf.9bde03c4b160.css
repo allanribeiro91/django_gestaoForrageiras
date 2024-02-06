@@ -1,0 +1,26 @@
+.container_pdaf {
+    display: flex;
+    justify-content: space-between;
+}
+
+.section {
+    margin: 10px 0px 10px 10px;
+    padding: 0px 10px 10px 10px;
+    background-color: #FFF;
+    border: 1px solid #E5E5E5;
+    border-radius: 5px;
+    width: 99%;
+    max-height: 85vh; /* ajuste este valor conforme necessário */
+    overflow-y: auto;
+  }
+
+.ficha_resumida {
+    margin: 10px 0px 10px 10px;
+    margin-right: 10px;
+    padding: 0px 10px 10px 10px;
+    background-color: #FFF;
+    border: 1px solid #E5E5E5;
+    border-radius: 5px;
+    width: 25%;
+    font-size: 12px;
+}

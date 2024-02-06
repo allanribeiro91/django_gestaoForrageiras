@@ -1,0 +1,204 @@
+/* Estilização para a barra superior para utilizar flexbox */
+.barra-superior {
+    display: flex;
+    justify-content: space-between; /* Alinha horizontalmente */
+    align-items: center; /* Alinha verticalmente */
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+/* Estilização para as abas */
+.tab-voltar{
+    display: flex;
+    margin-bottom: 10px;
+    justify-content: center;
+    font-size: 18px !important;
+    width: 3%;  /* Define a largura para 80% */
+}
+
+.tabs {
+    display: flex;
+    border-bottom: 1px solid #E5E5E5;
+    margin-bottom: 20px;
+    font-size: 12px;
+    width: 100%;  /* Define a largura para 80% */
+}
+
+/* Estilização para os botões */
+.buttons {
+    width: 20%;  /* Define a largura para 20% */
+    display: flex;
+    justify-content: flex-end; /* Alinha o conteúdo à direita */
+    margin-bottom: 20px;
+    margin-right: 10px;
+}
+
+/* Estilização para os botões das abas */
+.tab-button {
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: #000;
+    font-weight: normal;
+    border-bottom: 2px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    
+}
+
+/* Estilização para os ícones nos botões das abas */
+.tab-button i {
+    margin-right: 8px;
+}
+
+/* Estilização para a aba ativa */
+.tab-button.active {
+    border-bottom: 2px solid #000;
+    font-weight: bold;
+}
+
+/* Estilização para a aba ao passar o mouse */
+.tab-button:hover {
+    opacity: 0.7;
+}
+
+.d-grid{
+    font-size: 12px;
+}
+
+
+.horizontal-sections {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;  /* Alinha os itens ao topo */
+    width: 100%;
+}
+
+.section {
+    margin: 5px 0px 15px 10px;
+    padding: 0px 10px 10px 10px;
+    background-color: #FFF;
+    border: 1px solid #E5E5E5;
+    border-radius: 5px;
+    width: 99%;
+}
+
+.subsecao-group {
+    display: flex;
+    justify-content: space-between;
+    width: 100%; /* Ocupa a largura total da seção */
+}
+
+.subsecao {
+    flex: 1;
+    /* margin-right: 10px; */
+    
+}
+
+.subsecao .form-floating {
+    width: 100%; /* Cada elemento .form-floating ocupa a largura total da subseção */
+}
+
+.grid {
+    display: flex;
+    justify-content: flex-start;  /* Alinha os itens à esquerda */
+    /*align-items: center;  /* Alinha os itens verticalmente */
+    flex-wrap: wrap;  /* Permite que os itens ocupem várias linhas */
+    gap: 10px;  /* Espaçamento entre os itens */
+}
+
+
+.subgrid {
+    display: flex;
+    flex-direction: column; /* Organiza os elementos verticalmente */
+    margin-right: 20px;
+}
+
+
+
+.subgrid-elementos {
+    display: flex; /* Organiza os filhos horizontalmente */
+    flex-wrap: wrap; /* Permite que os elementos passem para a próxima linha se necessário */
+    gap: 10px; /* Espaçamento entre os elementos do formulário */
+    width: 100%; /* Ocupa toda a largura disponível */
+}
+
+.subgrid .form-floating {
+    flex-grow: 1; /* Os elementos se expandem para ocupar o espaço disponível */
+    margin-bottom: 0; /* Remover a margem inferior padrão */
+    /* Ajuste a largura de acordo com a necessidade, por exemplo: */
+    width: auto; /* ou um valor fixo, como 150px */
+}
+
+h3 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+h4 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.full-width {
+    flex-grow: 2;  /* Cresce para ocupar o espaço disponível */
+    margin-right: 5px;
+}
+
+
+.section-log {
+    margin: 5px 5px 10px 10px;
+    padding: 5px 10px 0px 10px;
+    background-color: #c0c0c0;
+    border: 1px solid #E5E5E5;
+    border-radius: 5px;
+    width: 99%;
+    height: 95px;
+}
+
+.grid-log{
+    display: flex;
+    justify-content: flex-start;  /* Alinha os itens à esquerda */
+    flex-wrap: wrap;  /* Permite que os itens ocupem várias linhas */
+    gap: 10px;  /* Espaçamento entre os itens */
+}
+
+.grid-log, .form-control.log_data, .form-control.log_responsavel, .form-control.log_edicoes{
+    font-size: 12px !important;
+    height: 50px;
+}
+
+.log_responsavel{
+    width: 250px
+}
+
+.log_data{
+    width: 150px;
+}
+
+.log_edicoes{
+    width: 90px;
+}
+
+.form-select{
+    font-size: 14px;
+}
+
+.form-floating{
+    font-size: 14px;
+}
+
+.form-control{
+    font-size: 14px;
+}
+
+.area-scroll{
+    overflow-y: auto;
+}
+
+

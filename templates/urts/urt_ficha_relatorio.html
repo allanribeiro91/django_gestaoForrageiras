@@ -1,0 +1,310 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{% static '\styles\_tabelas.css' %}">
+    <link rel="stylesheet" href="{% static '/styles/relatorio_urt_ficha.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>URT {{ urt.municipio }}-{{ urt.uf }}</title>
+</head>
+<body>
+    <div class="header">
+        <div class="logo-projeto">
+            <img src="{% static '/assets/logo/forrageiras.png' %}" alt="Logo SisDAF" class="top-logo">
+        </div>
+        <div class="titulo-relatorio">
+            Ficha da URT <b style="text-transform: uppercase;">{{ urt.municipio }}-{{ urt.uf }}</b>
+        </div>
+        <div class="responsavel-exportacao">
+            {{ usuario }} - {{ data_hora }}
+        </div>
+    </div>
+
+    <div class="content">
+
+        <!-- Log -->
+        <div class="horizontal-section log">
+            <div class="section">
+                <div class="section-titulo">
+                    Log
+                </div>
+                <div class="grid">
+                    <div class="box">
+                        <div class="box-titulo">ID</div>
+                        <div class="box-conteudo">{{ urt.id }}</div>
+                    </div>
+                    <div class="box">
+                        <div class="box-titulo">Responsável Registro</div>
+                        <div class="box-conteudo">{{ urt.usuario_registro.primeiro_ultimo_nome }}</div>
+                    </div>
+                    <div class="box">
+                        <div class="box-titulo">Data Registro</div>
+                        <div class="box-conteudo">{{ urt.registro_data|date:"d/m/Y H:i:s" }}</div>
+                    </div>
+                    <div class="box">
+                        <div class="box-titulo">Responsável Últ. Atualização</div>
+                        <div class="box-conteudo">{{ urt.usuario_atualizacao.primeiro_ultimo_nome }}</div>
+                    </div>
+                    <div class="box">
+                        <div class="box-titulo">Última Atualização</div>
+                        <div class="box-conteudo">{{ urt.ult_atual_data|date:"d/m/Y H:i:s" }}</div>
+                    </div>
+                    <div class="box">
+                        <div class="box-titulo">Nº Edições</div>
+                        <div class="box-conteudo">{{ urt.log_n_edicoes }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Identificação da URT -->
+        <div class="horizontal-section log">
+            <div class="section">
+                <div class="section-titulo">
+                    Identificação da URT
+                </div>
+
+                <!-- UF, Município, Nome da Propriedade, Proprietário -->
+                <div class="grid">
+                    <div class="box">
+                        <div class="box-titulo">UF</div>
+                        <div class="box-conteudo">{{ urt.get_uf_display }}</div>
+                    </div>                    
+                    <div class="box">
+                        <div class="box-titulo">Município</div>
+                        <div class="box-conteudo">{{ urt.municipio }}</div>
+                    </div>
+                    <div class="box">
+                        <div class="box-titulo full-width">Nome da Propriedade</div>
+                        <div class="box-conteudo">{{ urt.nome_propriedade }}</div>
+                    </div>
+                    <div class="box">
+                        <div class="box-titulo">Proprietário</div>
+                        <div class="box-conteudo">{{ urt.proprietario_nome }}</div>
+                    </div>
+                    <div class="box">
+                        <div class="box-titulo">Celular</div>
+                        <div class="box-conteudo">{{ urt.proprietario_celular }}</div>
+                    </div>
+                    <div class="box">
+                        <div class="box-titulo">Email</div>
+                        <div class="box-conteudo">{{ urt.proprietario_email }}</div>
+                    </div>
+                    
+                </div>
+
+                <!-- Endereço -->
+                <div class="grid">
+                    <div class="box full-width">
+                        <div class="box-titulo">Endereço</div>
+                        <div class="box-conteudo">{{ urt.endereco }}</div>
+                    </div>
+                    <div class="box">
+                        <div class="box-titulo">LatLong</div>
+                        <div class="box-conteudo">{{ urt.latlong }}</div>
+                    </div>
+                    <div class="box">
+                        <div class="box-titulo">PlusCode</div>
+                        <div class="box-conteudo">{{ urt.pluscode }}</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Técnico Responsável -->
+        <div class="horizontal-section log">
+            <div class="section">
+                <div class="section-titulo">
+                    Técnico Responsável
+                </div>
+
+                <!-- Dados do Técnico -->
+                <div class="grid">
+                    <div class="box full-width">
+                        <div class="box-titulo">Técnico</div>
+                        <div class="box-conteudo">{{ urt.tecnico_atual.tecnico }}</div>
+                    </div>
+                    <div class="box">
+                        <div class="box-titulo">Formação Técnica</div>
+                        <div class="box-conteudo">{{ urt.tecnico_atual.formacao }}</div>
+                    </div>                 
+                    <div class="box">
+                        <div class="box-titulo">Celular</div>
+                        <div class="box-conteudo">{{ urt.tecnico_atual.celular }}</div>
+                    </div>
+                    <div class="box">
+                        <div class="box-titulo">Email</div>
+                        <div class="box-conteudo">{{ urt.tecnico_atual.email }}</div>
+                    </div>
+                    <div class="box">
+                        <div class="box-titulo">Data Início</div>
+                        <div class="box-conteudo">{{ urt.tecnico_atual.data_inicio|date:'d/m/Y' }}</div>
+                    </div>
+                    
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Dados do Experimento -->
+        <div class="horizontal-section log">
+            <div class="section">
+                <div class="section-titulo">
+                    Dados do Experimento
+                </div>
+
+                <!-- UF, Município, Nome da Propriedade, Proprietário -->
+                <div class="grid">
+                    <div class="box">
+                        <div class="box-titulo">Área Total (ha)</div>
+                        <div class="box-conteudo">{{ urt.area_experimento }}</div>
+                    </div>                    
+                    <div class="box">
+                        <div class="box-titulo">Textura do Solo</div>
+                        <div class="box-conteudo">{{ urt.get_textura_solo_display }}</div>
+                    </div>
+                    <div class="box">
+                        <div class="box-titulo full-width">Local Preparo Amostras</div>
+                        <div class="box-conteudo">{{ urt.get_local_preparo_amostras_display }}</div>
+                    </div>
+
+                    <div class="box">
+                        <div class="box-titulo full-width">Precipitação Anual (mm)</div>
+                        <div class="box-conteudo">{{ urt.precipitacao_anual }}</div>
+                    </div>
+                    <div class="box">
+                        <div class="box-titulo full-width">Período Chuvoso</div>
+                        <div class="box-conteudo">{{ urt.get_periodo_chuva_inicio_display }} a {{ urt.get_periodo_chuva_fim_display }}</div>
+                    </div>
+                    <div class="box">
+                        <div class="box-titulo full-width">Período de Seca</div>
+                        <div class="box-conteudo">{{ urt.get_periodo_seca_inicio_display }} a {{ urt.get_periodo_seca_fim_display }}</div>
+                    </div>
+                </div>
+
+                <!-- Endereço -->
+                <div class="grid">
+                    <div class="box full-width">
+                        <div class="box-titulo">Endereço</div>
+                        <div class="box-conteudo">{{ urt.endereco }}</div>
+                    </div>
+                    <div class="box">
+                        <div class="box-titulo">LatLong</div>
+                        <div class="box-conteudo">{{ urt.latlong }}</div>
+                    </div>
+                    <div class="box">
+                        <div class="box-titulo">PlusCode</div>
+                        <div class="box-conteudo">{{ urt.pluscode }}</div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- Espécies Vegetais e Animais -->
+        <div class="horizontal-section log">
+            <div class="section">
+                <div class="section-titulo">
+                    Espécies Animais e Vegetais
+                </div>
+                
+                <span style="font-size: 10px; font-weight: bold; text-align: left; padding-left: 10px;">Espécies Vegetais</span>
+                <div class="grid" style="justify-content:center !important;" >
+                    
+                    <table class="tabela-relatorio" style="font-size: 10px; ">
+                        <thead>
+                            <tr>
+                                <th class="col-texto4" style="text-align: left;">ID</th>
+                                <th class="col-texto6">Espécie</th>
+                                <th class="col-texto20">Raças</th>
+                                <th class="col-texto4"></th>
+                                <th class="col-valor5">Área (ha)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in tab_especies_animais %}
+                            <tr data-id="{{ item.id }}">
+                                <td class="col-texto4">{{ item.id }}</td>
+                                <td class="col-texto6">{{ item.get_especie_animal_display }}</td>
+                                <td class="col-texto20">{{ item.racas }}</td>
+                                <td class="col-texto4"></td>
+                                <td class="col-valor5">{{ item.area_utilizada }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table> 
+                </div>
+
+                <!-- Espécies Vegetais -->
+                <span style="font-size: 10px; font-weight: bold; text-align: left; padding-left: 10px;">Espécies Vegetais</span>
+                <div class="grid" style="justify-content:center !important;" >
+                    
+                    <table class="tabela-relatorio" style="font-size: 10px; ">
+                        <thead>
+                            <tr>
+                                <th class="col-texto4" style="text-align: left;">ID</th>
+                                <th class="col-texto6">Espécie</th>
+                                <th class="col-texto20">Variedades</th>
+                                <th class="col-texto4">Silagem</th>
+                                <th class="col-valor5">Área (ha)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in tab_especies_vegetais %}
+                            <tr data-id="{{ item.id }}">
+                                <td class="col-texto4">{{ item.id }}</td>
+                                <td class="col-texto6">{{ item.get_especie_vegetal_display }}</td>
+                                <td class="col-texto12">{{ item.variedades }}</td>
+                                <td class="col-texto4">
+                                    {% if item.producao_silagem %}
+                                        Sim
+                                    {% else %}
+                                        Não
+                                    {% endif %}
+                                </td>
+                                <td class="col-valor5">{{ item.area_utilizada }}</td>
+                                
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table> 
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Observações gerais -->
+        <div class="horizontal-section log">
+            <div class="section full-width">
+                <div class="section-titulo">
+                    Observações Gerais
+                </div>
+                <div class="grid">
+                    <div class="box-observacoes">
+                        <div class="box-conteudo">{{ urt.observacoes_gerais }}</div>
+                    </div>
+                    
+                    
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- <div class="footer">
+        <div class="relatorio-log">
+            {{ usuario }} - {{ data_hora }}
+        </div>
+        
+        <div class="footer-pagina">
+            Página <b>1</b> de <b>1</b>
+        </div>
+    </div> -->
+</body>
+
+
+</html>

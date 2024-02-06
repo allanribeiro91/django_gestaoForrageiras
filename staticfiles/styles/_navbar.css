@@ -1,0 +1,123 @@
+.top-bar {
+    background-color: #0b182c;
+    height: 8vh;
+    width: 100%;
+    display: flex;
+    align-items: center; 
+    padding-left: 10px;  
+    position: relative;  
+}
+
+.top-logo {
+    max-height: 40%;     
+    width: auto;
+}
+
+.logo-text {
+    margin-left: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 1;
+}
+
+.sisdaf-title {
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 2px;
+    color: white;
+}
+
+.version-info {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    font-size: 11px;
+    color: white;
+}
+
+.unidade-info {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 15%;
+}
+
+.user-info {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 90px;
+}
+
+.user-label {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    text-align: right;
+    display: block;
+    color: white;
+}
+
+.user-name {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    text-align: right;
+    display: block;
+    color: white;
+}
+
+
+.profile-pic {
+    position: absolute;
+    top: 50%;
+    right: 30px;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.profile-pic img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+.dropdown {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    top: 55px; /* Ajuste conforme necessário */
+    right: 15px !important;
+    overflow: visible;
+    border-radius: 10px;
+}
+
+.dropdown a {
+    color: black;
+    padding: 12px 16px;
+    display: block;
+    text-align: left;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+.dropdown a:hover {
+    background-color: #ddd;
+    border-radius: 5px;
+}
+
+.alert {
+    position: absolute;
+    top: 50%;  /* Alinha verticalmente ao centro */
+    left: 50%;  /* Alinha horizontalmente ao centro */
+    transform: translate(-50%, -50%);  /* Ajusta a posição para que o alerta seja verdadeiramente centralizado */
+    transition: opacity 1s ease-out;
+}

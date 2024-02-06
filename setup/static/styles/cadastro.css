@@ -1,0 +1,170 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+    background-color: #ffffff;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.registration-box {
+    width: 50%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 16px;
+    border-radius: 1%;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 10px rgba(63, 63, 63, 0.3);
+    margin: 3vh 0;
+}
+
+
+.back-button {
+    display: flex;
+    align-items: center;      /* Isto deve centralizar verticalmente os itens dentro do .back-button */
+    align-self: flex-start;   /* Alinhar à esquerda dentro do container flexível */
+}
+
+.back-button i {
+    display: flex;
+    align-items: center;      /* Isto deve centralizar verticalmente os itens dentro do .back-button */
+    align-self: flex-start;   /* Alinhar à esquerda dentro do container flexível */
+    margin-bottom: 0px;
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    margin-right: 2px;        /* Espaço à direita da imagem, para separar do texto */
+}
+
+.back-button a {
+    text-decoration: none;
+    color: #4e4e4e;
+    font-size: 12px;
+    display: flex;            /* Garante que o link (a) seja tratado como um container flexível */
+    align-items: center;      /* Centraliza verticalmente o conteúdo do link */
+}
+
+
+.registration-box h1 {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 20px;
+    text-align: left;
+    color: rgb(0, 0, 0);
+    margin: 0;
+}
+
+.registration-box h2 {
+    padding-top: 10px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: normal;
+    font-size: 20px;
+    text-align: left;
+    color: #0b182c;
+    margin: 20px;
+}
+
+.registration-box .logo {
+    max-height: 90px;
+    margin-top: 0px;
+    padding-top: -10px;
+}
+
+.registration-box form {
+    width: 100%;
+    padding-top: 20px;
+}
+
+/* Estilização para campos de entrada de texto */
+.cadastro-form label {
+    color: black;
+    font-size: 14px;
+}
+
+.cadastro-form input[type="text"],
+.cadastro-form input[type="email"],
+.cadastro-form input[type="password"],
+.cadastro-form select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+    width: 180px;
+    font-size: 14px;
+}
+
+.cadastro-form input[name="nome_usuario"],
+.cadastro-form input[type="email"]{
+    padding-left: 10px;
+    width: 100%;
+}
+
+.error-label  {
+    color: red !important;
+    font-size: 11px !important;
+    text-align: left !important;
+    visibility: hidden;
+    margin-left: 10px;
+}
+
+.senha_caracteres  {
+    color: rgb(97, 97, 97) !important;
+    font-size: 11px !important;
+    text-align: left !important;
+    margin-left: 10px;
+}
+
+/* Adicione estilos para a nova classe '.form-row' */
+.form-row {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* Dê um tamanho fixo para todas as labels. Isso faz com que elas tenham o mesmo tamanho */
+.form-row label:not(.error-label) {
+    width: 150px;
+    text-align: left;
+}
+
+/* Adicione estilos para o wrapper do campo de entrada */
+.input-wrapper {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+}
+
+
+
+button {
+    padding: 10px 20px;
+    border: none;
+    background-color: rgb(8, 70, 0);
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 30%;
+    margin: 0 auto;
+    display: block;
+    font-weight: bold;
+    margin: 30px auto 20px;
+}
+
+button:hover {
+    background-color: rgb(17, 144, 0);
+    transition: 0.5s;
+}
+
+.messages {
+    color: red;
+    font-weight: bold;
+}

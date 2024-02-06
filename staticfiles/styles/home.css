@@ -1,0 +1,36 @@
+.presentation-container {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 0px;
+    margin-left: 0px;
+}
+
+.presentation-box {
+    width: 12%;
+    height: 60%;
+    background-color: white;
+    border-left: 10px solid #1B2144;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+    margin-left: 25px;
+    padding: 5px 10px 5px 5px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+}
+
+.presentation-box h2 {
+    font-size: 12px;
+    color: #1B2144;
+    margin: 5px 5px;
+    font-weight: bold;
+}
+
+.presentation-box p {
+    font-size: 35px;
+    font-weight: normal;
+    color: #1B2144;
+    margin: 5px 5px 20px;
+    text-align: right;
+}
+

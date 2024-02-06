@@ -1,0 +1,108 @@
+<!-- Modal -->
+{% load static %}
+<style>
+    .tags-column {
+        float: left;
+        width: 33.33%;
+        padding: 5px;
+    }
+
+    .custom-modal-width.arp {
+        max-width: 90% !important;  /* ou qualquer largura que você desejar */
+        font-size: 16px !important;
+    }
+
+    .horizontal-sections-modal {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;  /* Alinha os itens ao topo */
+        width: 100%;
+        height: 75px;
+        margin: 15px;
+    }
+
+    .modal-content.arp-height{
+        height: 70%;
+    }
+
+    .col-itemarp-id {
+        width: 5% !important;
+        text-align: left !important;
+    }
+    .col-itemarp-tipocota {
+        width: 10% !important;
+        text-align: left !important;
+    }
+    .col-itemarp-produto {
+        width: 30% !important;
+        text-align: left !important;
+    }
+    .col-itemarp-qtd {
+        width: 20% !important;
+        text-align: right !important;
+    }
+
+    table tbody tr:hover {
+        cursor: pointer;
+    }
+
+</style>
+
+<!-- Modal -->
+<div class="modal fade" id="contratoParcelaARP" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable custom-modal-width arp" role="document">
+        <div class="modal-content arp-height">
+            
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Selecione o Item da Ata de Registro de Preços</h5>
+                <button type="button" class="close closeModalButton" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            
+                <div class="grid" style="font-size: 14px; text-align: right !important;">
+                    <table class="table table-striped table-hover fixed-size-table" style="font-size: 12px;" id="tabItensArp">
+                        <thead>
+                            <tr>
+                                <th class="col-itemarp-id">Nº Item</th>
+                                <th class="col-itemarp-tipocota">Tipo de Cota</th>
+                                <th class="col-itemarp-produto">Produto</th>
+                                <th class="col-itemarp-qtd">Qtd Registrada ARP</th>
+                                <th class="col-itemarp-qtd">Qtd Contratada</th>
+                                <th class="col-itemarp-qtd">Saldo</th>
+                            </tr>
+                        </thead>
+                        <tbody class="itensArp">
+                            <tr data-id="">
+                                <td class="col-id"></td>
+                                <td class="col-tipocota" style="text-transform: capitalize;"></td>
+                                <td class="col-produto"></td>
+                                <td class="col-qtd"></td>
+                                <td class="col-qtd"></td>
+                                <td class="col-qtd"></td>
+                            </tr>
+                        </tbody>
+                    </table> 
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary closeModalButton" data-dismiss="modal" style="background-color: rgb(58, 58, 58); border-color: rgb(58, 58, 58);">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="inserirNovoContrato" style="background-color: rgb(18, 134, 34); border-color: rgb(18, 134, 34);">Inserir Parcela</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+   
+<script>
+    document.querySelectorAll('.closeModalButton').forEach(button => {
+        button.addEventListener('click', function() {
+            $('#itemARPmodal').modal('hide');
+        });
+    });
+    
+    
+    
+</script>

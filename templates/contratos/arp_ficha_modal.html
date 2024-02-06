@@ -1,0 +1,192 @@
+<!-- Modal -->
+{% load static %}
+<style>
+    .tags-column {
+        float: left;
+        width: 33.33%;
+        padding: 5px;
+    }
+
+    .custom-modal-width.arp {
+        max-width: 90% !important;  /* ou qualquer largura que você desejar */
+        font-size: 16px !important;
+    }
+
+    .horizontal-sections-modal {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;  /* Alinha os itens ao topo */
+        width: 100%;
+        height: 75px;
+        margin: 15px;
+    }
+
+    .modal-content.arp-height{
+        height: 75%;
+    }
+
+</style>
+
+<!-- Modal -->
+<div class="modal fade" id="itemARPmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable custom-modal-width arp" role="document">
+        <div class="modal-content arp-height">
+            
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Item da Ata de Registro de Preços</h5>
+                <button type="button" class="close closeModalButton" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            
+                <form id="arpItemForm">
+                    {% csrf_token %}
+                    <div class="horizontal-sections-modal">
+                        <div class="section" style="border: 0px !important;">
+                            <h3>Log</h3>
+                            <div class="grid" style="font-size: 10px;">
+                                <div class="form-floating mb-3" style="font-size: 12px;">
+                                    <input type="text" class="form-control log_data" id="id_arp_item" readonly value="{{ denominacao.registro_data }}">
+                                    <label for="floatingInput">ID</label>
+                                </div>
+                                <div class="form-floating mb-3" style="font-size: 12px;">
+                                    <input type="text" class="form-control log_data" id="arp_item_log_data_registro" name="log_data_registro" readonly value="{{ denominacao.registro_data|date:"d/m/Y H:i:s" }}">
+                                    <label for="floatingInput">Data do Registro</label>
+                                </div>
+                                <div class="form-floating mb-3" style="font-size: 12px;">
+                                    <input type="text" class="form-control log_responsavel" id="arp_item_log_responsavel_registro" name="log_responsavel_registro" readonly value="{{ denominacao.usuario_registro.dp_nome_completo }}">
+                                    <label for="floatingInput">Responsável pelo Registro</label>
+                                </div>
+                                <div class="form-floating mb-3" style="font-size: 12px;">
+                                    <input type="text" class="form-control log_data" id="arp_item_log_ult_atualizacao" name="log_data_registro" readonly value="{{ denominacao.ult_atual_data|date:"d/m/Y H:i:s" }}">
+                                    <label for="floatingInput">Última Atualização</label>
+                                </div>
+                                <div class="form-floating mb-3" style="font-size: 12px;">
+                                    <input type="text" class="form-control log_responsavel" id="arp_item_log_responsavel_atualizacao" name="log_responsavel_atualizacao" readonly value="{{ denominacao.usuario_atualizacao.dp_nome_completo }}">
+                                    <label for="floatingInput">Responsável Atualização</label>
+                                </div>
+                                <div class="form-floating mb-3" style="font-size: 12px;">
+                                    <input type="text" class="form-control log_edicoes" id="arp_item_log_edicoes" name="log_edicoes" readonly value="{{ denominacao.log_n_edicoes }}">
+                                    <label for="floatingInput">Nº Edições</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div class="horizontal-sections-modal">
+                        <div class="section" style="border: 0px !important;">
+                            <h3>Identificação do Item</h3>
+                            <div class="grid" style="font-size: 14px;">
+                                <div class="form-floating mb-3">
+                                    {{ form_item.numero_item }}
+                                    <label>{{ form_item.numero_item.label }}</label>
+                                </div>
+                                
+                                <div class="form-floating">
+                                    {{ form_item.tipo_cota }}
+                                    <label>{{ form_item.tipo_cota.label }}</label>
+                                </div>
+                                <div class="form-floating">
+                                    {{ form_item.empate_ficto }}
+                                    <label>{{ form_item.empate_ficto.label }}</label>
+                                </div>
+                                <div class="form-floating full-width">
+                                    {{ form_item.produto }}
+                                    <label>{{ form_item.produto.label }}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="horizontal-sections-modal">
+                        <div class="section" style="border: 0px !important;">
+                            <h3>Preços e Quantidades Registrados na Ata</h3>
+                            <div class="grid" style="font-size: 14px;">
+                                <div class="form-floating mb-3">
+                                    {{ form_item.valor_unit_homologado }}
+                                    <label>{{ form_item.valor_unit_homologado.label }}</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    {{ form_item.valor_unit_reequilibrio_bool }}
+                                </div>
+                                <div class="form-floating mb-3">
+                                    {{ form_item.valor_unit_reequilibrio }}
+                                    <label>{{ form_item.valor_unit_reequilibrio.label }}</label>
+                                </div>
+                                <div class="form-floating mb-3" style="margin-left: 40px;">
+                                    {{ form_item.qtd_registrada }}
+                                    <label>{{ form_item.qtd_registrada.label }}</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="arp_valor_total" name="valor_total" style="text-align: right;" readonly>
+                                    <label for="arp_valor_total">Valor Total</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="horizontal-sections-modal">
+                        <div class="section" style="border: 0px !important;">
+                            <h3>Quantidades Contratadas</h3>
+                            <div class="grid" style="font-size: 14px;">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="arp_valor_reequilibrio" name="arp_valor_reequilibrio" readonly>
+                                    <label for="arp_valor_reequilibrio">Número de Contratos</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="arp_valor_reequilibrio" name="arp_valor_reequilibrio" readonly>
+                                    <label for="arp_valor_reequilibrio">Quantidade Contratada</label>
+                                </div>
+                                
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="arp_valor_reequilibrio" name="arp_valor_reequilibrio" readonly>
+                                    <label for="arp_valor_reequilibrio">Valor Contratado</label>
+                                </div>
+                                <div class="form-floating mb-3" style="margin-left: 40px;">
+                                    <input type="text" class="form-control" id="arp_valor_reequilibrio" name="arp_valor_reequilibrio" readonly>
+                                    <label for="arp_valor_reequilibrio">Quantidade de Saldo</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="arp_valor_reequilibrio" name="arp_valor_reequilibrio" readonly>
+                                    <label for="arp_valor_reequilibrio">Valor do Saldo</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="horizontal-sections-modal">
+                        
+                        <div class="section" style="border: 0px !important;">
+                            <h3>Observações gerais</h3>
+                            <div class="grid" style="font-size: 14px;">
+                                <div class="form-floating mb-3 full-width">
+                                    {{ form_item.observacoes_gerais }}
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary closeModalButton" data-dismiss="modal" style="background-color: rgb(58, 58, 58); border-color: rgb(58, 58, 58);">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="btnDeletarItemArp" style="background-color: rgb(221, 0, 0); border-color: rgb(221, 0, 0);">Deletar</button>
+                <button type="button" class="btn btn-primary" id="btnSalvarItemArp" style="background-color: rgb(13, 110, 253); border-color: rgb(13, 110, 253);">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+   
+<script>
+    document.querySelectorAll('.closeModalButton').forEach(button => {
+        button.addEventListener('click', function() {
+            $('#itemARPmodal').modal('hide');
+        });
+    });
+    
+    
+    
+</script>

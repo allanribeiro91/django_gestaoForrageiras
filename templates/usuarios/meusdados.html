@@ -1,0 +1,156 @@
+{% extends 'main/base_main.html' %}
+{% load static %}
+{% block extra_head %}    
+    <link rel="stylesheet" href="{% static 'styles/meusdados.css' %}">
+{% endblock %}
+{% block content %}    
+    
+    <!-- Caminho da Área de Trabalho -->
+    <div class="breadcrumb2">
+        <i class="fas fa-user"></i>&nbsp;Ficha do Usuário
+    </div>
+
+    <!-- Barra Superior -->
+    <div class="barra-superior">
+        <!-- Abas -->
+        <div class="tabs">
+            <button class="tab-button active" id="tabMeusDados" onclick="location.href='{% url 'meusdados' %}'">&nbsp;Meus Dados</button>
+            <!-- <button class="tab-button" id="tabMeusDados">&nbsp;Alterar Senha</button> -->
+            <button class="tab-button" id="tabMeusAcessos" onclick="location.href='{% url 'meusacessos' %}'">&nbsp;Meus Acessos</button>
+            <button class="tab-button" id="tabMeusLogs" onclick="location.href='{% url 'meuslogs' %}'">&nbsp;Meus Logs</button>
+            <!-- <button class="tab-button" id="tabMeusDados">&nbsp;Ajuda</button> -->
+        </div>
+    </div>
+
+    <!-- Meus Dados -->
+    <form id="usuarioForm" method="POST" action="{% url 'meusdados' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button class="btn btn-primary me-md-2" type="submit" id="btnSave" style="font-size: 12px;">
+                <i class="fas fa-save me-1"></i> <!-- Ícone com margem à direita -->
+                Salvar
+            </button>            
+        </div>
+        
+        <div class="horizontal-sections">
+            <!-- Foto do usuário --> 
+            <div class="image-upload">
+                <label for="file-input">
+                    <!-- <img id="foto_usuario" src="{% if usuario.foto_usuario %}{{ usuario.foto_usuario.url }}{% else %}{% static 'assets/imagens/user.png' %}{% endif %}" class="rounded-circle" alt="Imagem do usuário"> -->
+                    <img id="foto_usuario" src="{% static 'assets/imagens/user.png' %}" class="rounded-circle" alt="Imagem do usuário">
+                </label>
+                <input id="file-input" type="file" name="foto_usuario" style="display:none;" accept="image/*" onchange="previewImage(this)">
+            </div>
+
+            <!-- Dados Pessoais -->
+            <div class="section subsecao1">
+                <h3>Dados pessoais</h3>
+                <div class="grid">
+                    <!-- CPF, nome e data de nascimento -->
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="cpf" name="cpf" readonly value="{{ form.cpf.value|default_if_none:'' }}">
+                        <label for="floatingInput">{{ form.cpf.label }}</label>
+                    </div>
+                    <div class="form-floating mb-3 full-width">
+                        <input type="text" class="form-control" name="nome_completo" value="{{ form.nome_completo.value|default_if_none:'' }}">
+                        <label for="floatingInput">{{ form.nome_completo.label }}</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="date" class="form-control" id="data_nascimento" name="data_nascimento" value="{% if form.data_nascimento.value %}{{ form.data_nascimento.value|date:'Y-m-d' }}{% endif %}">
+                        <label for="floatingInput">{{ form.data_nascimento.label }}</label>
+                    </div>                    
+
+                    <!-- Gênero -->
+                    <div class="form-floating">
+                        <select class="form-select" name="genero">
+                            <option value="" disabled {% if not form.genero.value %}selected{% endif %}>Não Informado</option>
+                            {% for value, display in GENERO_SEXUAL %}
+                            <option value="{{ value }}" {% if form.genero.value == value %}selected{% endif %}>{{ display }}</option>
+                            {% endfor %}
+                        </select>
+                        <label>{{ form.genero.label }}</label>
+                    </div>
+
+                    <!-- Cor da Pele -->
+                    <div class="form-floating">
+                        <select class="form-select" name="cor_pele">
+                            <option value="" disabled {% if not form.cor_pele.value %}selected{% endif %}>Não Informado</option>
+                            {% for value, display in COR_PELE %}
+                            <option value="{{ value }}" {% if form.cor_pele.value == value %}selected{% endif %}>{{ display }}</option>
+                            {% endfor %}
+                        </select>
+                        <label>{{ form.cor_pele.label }}</label>
+                    </div>
+
+                </div>
+            </div>
+            
+        </div>
+
+    <div class="horizontal-sections">
+        <!-- Alocação Atual -->
+        <div class="section subsecao2">
+            <h3>Alocação Atual</h3>
+            <div class="grid">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="unidade_daf" name="aloc_unidade" value="{{ alocacao_ativa.unidade|upper }}" readonly>
+                    <label for="floatingInput">Unidade DAF</label>
+                </div>
+                <div class="form-floating mb-3 full-width">
+                    <input type="text" class="form-control" id="setor_unidade" name="aloc_setor" value="{{ alocacao_ativa.setor }}" readonly>
+                    <label for="floatingInput">Setor</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="data_inicio" name="aloc_data_inicio" 
+                    value="{% if alocacao_ativa and alocacao_ativa.data_inicio %}{{ alocacao_ativa.data_inicio|date:'d/m/Y' }}{% endif %}" readonly>
+                    <label for="floatingInput">Data de Início</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contato -->
+        <div class="section subsecao2">
+            <h3>Contato</h3>
+            <div class="grid">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="ramal" name="ramal" style="width: 100px !important" value="{{ form.ramal.value|default_if_none:'' }}">
+                    <label for="floatingInput">{{ form.ramal.label }}</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" name="celular" id="celular" placeholder="" value="{{ form.celular.value|default_if_none:'' }}">
+                    <label for="floatingInput">{{ form.celular.label }}</label>
+                </div>
+                <div class="form-floating mb-3 full-width">
+                    <input type="text" class="form-control" name="email_institucional" placeholder="" value="{{ form.email_institucional.value|default_if_none:'' }}">
+                    <label for="floatingInput">{{ form.email_institucional.label }}</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" name="email_pessoal" placeholder="" value="{{ form.email_pessoal.value|default_if_none:'' }}">
+                    <label for="floatingInput">{{ form.email_pessoal.label }}</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="horizontal-sections">
+        
+        <div class="section subsecao2 full-width">
+            <h3>Redes Sociais Profissionais</h3>
+            <div class="grid">
+                <div class="form-floating mb-3 half-width">
+                    <input type="text" class="form-control clickable-input" id="linkendin" name="linkedin" placeholder="" value="{{ form.linkedin.value|default_if_none:'' }}">
+                    <label>{{ form.linkedin.label }}</label>
+                </div>
+                <div class="form-floating mb-3 half-width">
+                    <input type="text" class="form-control clickable-input" id="lattes" name="lattes" placeholder="" value="{{ form.lattes.value|default_if_none:'' }}">
+                    <label>{{ form.lattes.label }}</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script src="{% static 'js/meus_dados.js' %}"></script>
+
+{% endblock %}

@@ -1,0 +1,189 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+    overflow: hidden; /* Impede barras de rolagem */
+}
+
+.container_login {
+    display: flex !important;
+    height: 90vh;
+    margin: 5vh 5vw;
+    border-radius: 1%;
+    box-shadow: 0px 0px 10px rgba(63, 63, 63, 0.3);
+}
+
+.image-section {
+    flex: 8;
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top-left-radius: 1%;  
+    border-bottom-left-radius: 1%;
+}
+
+.image-section img {
+    width: 100% !important;        
+    height: 100%;       
+    object-fit: cover;  
+    border-top-left-radius: 1%; 
+    border-bottom-left-radius: 1%;
+}
+
+.login-section {
+    flex: 2;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    border-top-right-radius: 1%;  
+    border-bottom-right-radius: 1%;
+    background-color: #ffffff;
+    position: relative;         
+    height: 100%;               
+}
+
+.login-section img {
+    width: auto;               
+    max-height: 20%;           
+    display: flex;            
+}
+
+.login-section h1 {
+    font-family: 'Ubuntu', sans-serif; 
+    font-weight: 700;                  
+    font-size: 28px;                   
+    text-align: center;                
+    margin-top: 0px;                 
+    color: #0b182c;
+}
+
+.login-section form {
+    width: 100%;                
+    padding-top: 0px;
+}
+
+.input-group {
+    width: 100%;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: black !important;
+    font-size: 14px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #0b182c;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 50%;
+    margin: 0 auto;
+    display:block;
+}
+
+button:hover {
+    background-color: #0056b3;
+    transition: 0.5s;
+}
+
+/* Isso faz com que o padding seja incluído no cálculo da largura total, evitando vazamentos */
+.input-group input, button {
+    box-sizing: border-box;
+}
+
+/* Removendo a propriedade height do .login-section para garantir que ambos os retângulos tenham a mesma altura */
+.login-section {
+    height: auto;
+    justify-content: flex-start;
+}
+
+/* Removendo o posicionamento relativo do .login-section, pois ele não é necessário para o layout atual */
+.login-section {
+    position: static;
+}
+
+.form-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Centraliza os campos verticalmente */
+    
+}
+
+.additional-links {
+    margin-top: 20%;  /* Espaçamento de 20% acima dos links */
+    text-align: center;  /* Centraliza os links horizontalmente */
+}
+
+.additional-links a {
+    text-decoration: none;
+    color: #007bff;
+    margin-top: 10px;
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-bottom: 50px;
+    font-size: 14px;
+    display: inline-block;  /* Opcional, dependendo do seu layout */
+}
+
+
+.additional-links a:hover {
+    text-decoration: underline;  /* Adiciona um sublinhado ao passar o mouse sobre os links */
+}
+
+.esqueci-senha {
+    display: block;           /* Faz o link ocupar sua própria linha */
+    text-align: right;       /* Alinha o link à direita */
+    font-size: 10px;         /* Define o tamanho da fonte */
+    color: #808080;          /* Define a cor do link para cinza médio */
+    text-decoration: none;   /* Remove o sublinhado do link */
+    margin-top: 5px;         /* Adiciona um pequeno espaçamento acima do link */
+}
+
+.esqueci-senha:hover {
+    text-decoration: underline;  /* Adiciona um sublinhado ao passar o mouse sobre o link */
+}
+
+.error-label {
+    color: red !important;
+    font-size: 10px !important;
+    text-align: right;
+    margin-top: 5px;
+    visibility: hidden;
+}
+
+/* Definição de espaçamentos verticais */
+.login-section img {
+    margin-top: calc(4*1vh);
+}
+
+.input-group {
+    margin-top: calc(4*1vh);    /* cpf+senha 20% abaixo da logo+nome */
+}
+
+button {
+    margin-top: calc(4*1vh);
+}
+
+.additional-links {
+    margin-top: calc(2*1vh);    /* cadastrar 15% abaixo do botão entrar */
+}
+
+.alert {
+    transition: opacity 1s ease-out;
+  } 

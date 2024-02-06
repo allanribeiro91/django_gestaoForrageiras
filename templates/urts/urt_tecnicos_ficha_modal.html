@@ -1,0 +1,205 @@
+<!-- Modal -->
+{% load static %}
+<style>
+    .tags-column{
+        float: left;
+        width: 33.33%;
+        padding: 5px;
+    }
+
+    .custom-modal-width-tecnico-ficha {
+        width: 1500px;  /* ou qualquer largura que você desejar */
+        max-width: 70%;
+        font-size: 16px !important;
+    }
+
+    .horizontal-sections-modal-parcela {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;  /* Alinha os itens ao topo */
+        width: 100%;
+        height: 75px;
+    }
+
+    .modal-content.ficha-tecnico{
+        height: 900px;
+        max-height: 85%;
+    }
+
+    .modal-body{
+        height: auto;
+    }
+
+
+</style>
+
+<!-- Modal -->
+<div class="modal fade" id="fichaTecnicoURTModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable custom-modal-width-tecnico-ficha" role="document">
+        <div class="modal-content ficha-tecnico">
+            
+            <!-- Cabeçalho -->
+            <div class="modal-header">
+                <h5 class="modal-title">Ficha do Técnico da URT</h5>
+                <button type="button" class="close closeModalButton" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <!-- Corpo -->
+            <div class="modal-body">
+                
+                <!-- Formulário -->
+                <form id="fichaTecnicoURTForm">
+                {% csrf_token %}
+
+                    <!-- Log -->
+                    <div class="horizontal-sections-modal-parcela" style="margin-bottom: 10px;">
+                        <div class="section" style="border: 0px !important;">
+                            <h3>Log</h3>
+                            <div class="grid" style="font-size: 10px;">
+                                <div class="form-floating mb-3" style="font-size: 12px;">
+                                    <input type="text" class="form-control log_data" id="tecnico_id" style="width: 100px;"  readonly>
+                                    <label for="tecnico_id">ID</label>
+                                </div>
+                                <div class="form-floating mb-3" style="font-size: 12px;">
+                                    <input type="text" class="form-control log_data" id="tecnico_log_data_registro" readonly>
+                                    <label for="tecnico_log_data_registro">Data do Registro</label>
+                                </div>
+                                <div class="form-floating mb-3" style="font-size: 12px;">
+                                    <input type="text" class="form-control log_responsavel" id="tecnico_log_responsavel_registro" readonly>
+                                    <label for="tecnico_log_responsavel_registro">Responsável pelo Registro</label>
+                                </div>
+                                <div class="form-floating mb-3" style="font-size: 12px;">
+                                    <input type="text" class="form-control log_data" id="tecnico_log_ult_atualizacao" readonly>
+                                    <label for="tecnico_log_ult_atualizacao">Última Atualização</label>
+                                </div>
+                                <div class="form-floating mb-3" style="font-size: 12px;">
+                                    <input type="text" class="form-control log_responsavel" id="tecnico_log_responsavel_atualizacao" readonly>
+                                    <label for="tecnico_log_responsavel_atualizacao">Responsável Atualização</label>
+                                </div>
+                                <div class="form-floating mb-3" style="font-size: 12px;">
+                                    <input type="text" class="form-control log_edicoes" id="tecnico_log_edicoes" readonly>
+                                    <label for="tecnico_log_edicoes">Nº Edições</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dados do Técnico -->
+                    <div class="horizontal-sections-modal-parcela" style="margin-bottom: 15px;">
+                        <div class="section" style="border: 0px !important;">
+                            <h3>Dados do Técnico</h3>
+                            <div class="grid" style="font-size: 14px;">
+                                <div class="form-floating mb-3" style="width: 130px;">
+                                    {{ form_tecnico.cpf }}
+                                    <label>{{ form_tecnico.cpf.label }}</label>
+                                </div>
+                                <div class="form-floating mb-3 full-width" >
+                                    {{ form_tecnico.tecnico }}
+                                    <label>{{ form_tecnico.tecnico.label }}</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    {{ form_tecnico.formacao_tecnica }}
+                                    <label>{{ form_tecnico.formacao_tecnica.label }}</label>
+                                </div>
+                                <div class="form-floating mb-3" style="width: 140px;">
+                                    {{ form_tecnico.celular }}
+                                    <label>{{ form_tecnico.celular.label }}</label>
+                                </div>
+                                <div class="form-floating mb-3" style="width: 250px;">
+                                    {{ form_tecnico.email }}
+                                    <label>{{ form_tecnico.email.label }}</label>
+                                </div>
+                                                      
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+
+                    <!-- Dados do CNPJ -->
+                    <div class="horizontal-sections-modal-parcela" style="margin-bottom: 15px;">
+                        <div class="section" style="border: 0px !important;">
+                            <h3>Dados da Empresa</h3>
+                            <div class="grid" style="font-size: 14px;">
+                                <div class="form-floating mb-3" style="width: 160px;">
+                                    {{ form_tecnico.cnpj }}
+                                    <label>{{ form_tecnico.cnpj.label }}</label>
+                                </div>
+                                <div class="form-floating mb-3 full-width">
+                                    {{ form_tecnico.razao_social }}
+                                    <label>{{ form_tecnico.razao_social.label }}</label>
+                                </div>
+                                <div class="form-floating mb-3 full-width">
+                                    {{ form_tecnico.nome_fantasia }}
+                                    <label>{{ form_tecnico.nome_fantasia.label }}</label>
+                                </div>                                                      
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <!-- Dados do Contrato -->
+                    <div class="horizontal-sections-modal-parcela" style="margin-bottom: 15px;">
+                        <div class="section" style="border: 0px !important;">
+                            <h3>Dados do Contrato</h3>
+                            <div class="grid" style="font-size: 14px;">
+                                <div class="form-floating mb-3">
+                                    {{ form_tecnico.status_contrato }}
+                                    <label>{{ form_tecnico.status_contrato.label }}</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    {{ form_tecnico.numero_contrato }}
+                                    <label>{{ form_tecnico.numero_contrato.label }}</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="date" class="form-control" style="width: 160px;" id="id_tecnico_data_inicio" name="data_inicio">
+                                    <label for="id_tecnico_data_inicio">Data Início</label>
+                                </div>
+    
+                                <div class="form-floating mb-3">
+                                    <input type="date" class="form-control" style="width: 160px;" id="id_tecnico_data_fim" name="data_fim">
+                                    <label for="id_tecnico_data_fim">Data Fim</label>
+                                </div>                                                    
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <!-- Observações -->
+                    <div class="horizontal-sections-modal-parcela" style="margin-bottom: 15px;">
+                        <div class="section" style="border: 0px !important;">
+                            <h3>Observações</h3>
+                            <div class="grid" style="font-size: 14px;">
+                                <div class="form-floating mb-3 full-width">
+                                    {{ form_tecnico.observacoes_gerais }}
+                                    <label>{{ form_tecnico.observacoes_gerais.label }}</label>
+                                </div>                   
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ID da URT -->
+                    <input type="text" id="id_urt_tecnico" name="id_urt_tecnico" readonly>
+
+                </form>                
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary closeModalButton" data-dismiss="modal" style="background-color: rgb(58, 58, 58); border-color: rgb(58, 58, 58);">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="btnDeletarTecnico" style="background-color: rgb(221, 0, 0); border-color: rgb(221, 0, 0);">Deletar</button>
+                <button type="button" class="btn btn-primary" id="botaoSalvarTecnico" style="background-color: rgb(13, 110, 253); border-color: rgb(13, 110, 253);">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.closeModalButton').forEach(button => {
+        button.addEventListener('click', function() {
+            $('#fichaTecnicoURTModal').modal('hide');
+        });
+    });
+</script>

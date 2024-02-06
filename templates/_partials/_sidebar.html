@@ -1,0 +1,41 @@
+{% load static %}
+    <!-- Barra Lateral Esquerda -->
+    <div class="sidebar">
+        <div class="cabecalho">
+            <img src="{% static 'assets/logo/forrageiras_negativo.png' %}" alt="Logo Forrageiras" class="top-logo">
+            <span class="titulo">Gestão Forrageiras</span><br>
+            <span class="versao">Versão 0.1</span>
+        </div>
+        
+        <div>
+            <a class="tab {% if request.resolver_match.url_name == 'home' %}active-tab{% endif %}" href="{% url 'home' %}">Home</a>
+        </div>
+
+        <div>
+            {% with current_url=request.resolver_match.url_name %}
+            <a class="tab {% if current_url in 'urts, urt_ficha' %}active-tab{% endif %}" href="{% url 'urts' %}">URTs</a>
+            {% endwith %}    
+        </div> 
+        
+
+        <!-- Usuário -->
+        <div class="dropdown" id="dropdown">
+            <a href="{% url 'meusdados' %}">
+                <i class="fas fa-user"></i>
+                &nbsp;Meus Dados</a>
+            
+            <a href="{% url 'logout' %}">
+                <i class="fas fa-sign-out-alt"></i>
+                &nbsp;Sair</a>
+        </div>
+        <div id="toggleButton" class="toggle-button">
+            <div class="usuario">
+                <img src="{% static 'assets/imagens/user.png   ' %}" class="profile-pic-img"><br>
+                {{ request.user.usuario_relacionado.primeiro_ultimo_nome  }}
+            </div>
+        </div>
+        
+
+
+    </div>
+    <script src="{% static 'js/_sidebar.js' %}"></script>

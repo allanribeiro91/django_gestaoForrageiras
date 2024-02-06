@@ -1,0 +1,98 @@
+<!-- Modal -->
+{% load static %}
+<style>
+
+    .custom-modal-width {
+        max-width: 40%;  /* ou qualquer largura que você desejar */
+        font-size: 16px !important;
+    }
+
+    .modal-content.novo-contrato{
+        height: 50%;
+    }
+
+</style>
+
+<!-- Modal -->
+<div class="modal fade" id="contratoNovoModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable custom-modal-width" role="document">
+        <div class="modal-content novo-contrato">
+            
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Novo Contrato</h5>
+                <button type="button" class="close closeModalButton" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                
+                    <div class="grid" style="font-size: 14px; margin: 20px;">
+                        <!-- Unidade DAF -->
+                        <div class="form-floating">
+                            <select class="form-select" id="inserir_ct_unidade_daf">
+                                <option value="" disabled {% if not form.instance.tipo_produto %}selected{% endif %}>Não Informado</option>
+                                {% for value, display in lista_unidadesdaf %}
+                                <option value="{{ value }}" {% if form.instance.tipo_produto == value %}selected{% endif %}>{{ display }}</option>
+                                {% endfor %}
+                            </select>
+                            <label for="inserir_ct_unidade_daf">Unidade DAF</label>
+                        </div>
+
+                        <!-- Modalidade de Aquisição -->
+                        <div class="form-floating" style="width: 220px !important">
+                            <select class="form-select" id="inserir_ct_modalidade_aquisicao" disabled>
+                                {% for value, display in lista_modalidades %}
+                                <option value="{{ value }}">{{ display }}</option>
+                                {% endfor %}
+                            </select>
+                            <label for="inserir_ct_modalidade_aquisicao">Modalidade de Aquisição</label>
+                        </div>
+
+                        <!-- ARP -->
+                        <div class="form-floating full-width">
+                            <select class="form-select" id="inserir_ct_arp" disabled>
+                            </select>
+                            <label for="inserir_ct_arp">Ata de Registro de Preços</label>
+                        </div>
+                    </div>
+                
+                    <div class="grid" style="font-size: 14px; margin: 20px;">
+                        <!-- Denominação Genérica -->
+                        <div class="form-floating full-width">
+                            <select class="form-select" id="inserir_ct_denominacao" disabled>
+                            </select>
+                            <label for="inserir_ct_denominacao">Denominação Genérica</label>
+                        </div>                         
+                    </div>
+                
+                    <div class="grid" style="font-size: 14px; margin: 20px;">
+                        <!-- Fornecedor -->
+                        <div class="form-floating full-width">
+                            <select class="form-select" id="inserir_ct_fornecedor" disabled>
+                            </select>
+                            <label for="inserir_ct_fornecedor">Fornecedor</label>
+                        </div>                           
+                    </div>
+                    
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary closeModalButton" data-dismiss="modal" style="background-color: rgb(58, 58, 58); border-color: rgb(58, 58, 58);">Cancelar</button>
+                <!-- <a href="{% url 'contrato_novo' %}" style="text-decoration: none;"> -->
+                    <button type="button" class="btn btn-primary" id="inserirNovoContrato" style="background-color: rgb(18, 134, 34); border-color: rgb(18, 134, 34);">Inserir Contrato</button>
+                <!-- </a> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+   
+<script>
+    document.querySelectorAll('.closeModalButton').forEach(button => {
+        button.addEventListener('click', function() {
+            $('#contratoNovoModal').modal('hide');
+        });
+    });
+</script>
+
+<script src="{% static 'js/contrato_inserir.js' %}"></script>

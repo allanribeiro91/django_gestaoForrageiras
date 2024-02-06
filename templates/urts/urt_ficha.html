@@ -1,0 +1,377 @@
+{% extends 'main/base_main.html' %}
+{% load static %}
+{% load humanize %}
+{% block extra_head %}    
+    <link rel="stylesheet" href="{% static 'styles/_tabelas.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/urt_ficha.css' %}">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+{% endblock %}
+{% block content %}    
+    
+    <!-- Caminho da Área de Trabalho -->
+    <div class="breadcrumb2">
+        <i class="fa-solid fa-seedling"></i>&nbsp;URTs / URT {{ urt.municipio }} / Sobre a URT
+    </div>
+
+    <!-- Barra Superior -->
+    <div class="barra-superior">
+        <!-- Abas -->
+        <div class="tab-voltar">
+            <a href="{% url 'urts' %}" style="color: black;">
+                <i class="fas fa-arrow-left"></i> 
+            </a>
+        </div>
+        <div class="tabs">
+            <button class="tab-button active" id="projeto_ficha_dados_gerais">Sobre a URT</button>
+            <button class="tab-button" id="projeto_ficha_execucao_financeira">Ciclos</button>
+        </div>
+    </div>
+
+    <div class="area-scroll">
+        <!-- form URT -->
+        <form id="formURT" method="POST">
+            {% csrf_token %}
+
+            <!-- Botões -->
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">           
+                <button type="button" class="btn btn-danger" id="btnRelatorioFichaURT" style="font-size: 12px; background-color: #039153; border-color: #039153;">
+                    <i class="fa-regular fa-file-pdf"></i>
+                    &nbsp;Ficha da URT
+                </button>
+                
+                <button class="btn btn-primary me-md-2" type="submit" id="btnSalvarURT" style="font-size: 12px;">
+                    <i class="fas fa-save me-1"></i> 
+                    Salvar
+                </button>
+            </div>
+            
+            <!-- Logs -->
+            <div class="horizontal-sections">
+                <div class="section-log">
+                    <h3>Log</h3>
+                    <div class="grid-log">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control log_edicoes" id="urt_id" readonly value="{{ form_urt.instance.id|default_if_none:'' }}">
+                            <label for="floatingInput">ID</label>
+                        </div>                        
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control log_data" id="urt_log_data_registro" readonly value="{{ urt.registro_data|date:"d/m/Y H:i:s" }}">
+                            <label for="floatingInput">Data do Registro</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control log_responsavel" id="urt_log_responsavel_registro" readonly value="{{ urt.usuario_registro.nome_completo }}">
+                            <label for="floatingInput">Responsável pelo Registro</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control log_data" id="urt_lot_ult_atualizacao" readonly value="{{ urt.ult_atual_data|date:"d/m/Y H:i:s" }}">
+                            <label for="floatingInput">Última Atualização</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control log_responsavel" id="urt_log_responsavel_atualizacao" readonly value="{{ urt.usuario_atualizacao.nome_completo }}">
+                            <label for="floatingInput">Responsável Atualização</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control log_edicoes" style="width: 100px;" id="urt_log_edicoes" readonly value="{{ urt.log_n_edicoes }}">
+                            <label for="floatingInput">Nº Edições</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dados da URT -->
+            <div class="horizontal-sections">
+                
+                <!-- Identificação -->
+                <div class="section">
+                    <h3>Identificação da URT</h3>
+                    
+                    <!-- Dados da Propriedade e Proprietário -->
+                    <div class="grid" style="font-size: 14px;">
+                        <div class="form-floating mb-3 full-width">
+                            {{ form_urt.nome_propriedade }}
+                            <label>{{ form_urt.nome_propriedade.label }}</label>
+                        </div>
+                        <div class="form-floating mb-3 full-width">
+                            {{ form_urt.proprietario_nome }}
+                            <label>{{ form_urt.proprietario_nome.label }}</label>
+                        </div>
+                        <div class="form-floating mb-3" style="width:150px">
+                            {{ form_urt.proprietario_telefone }}
+                            <label>{{ form_urt.proprietario_telefone.label }}</label>
+                        </div>
+                        <div class="form-floating mb-3" style="width:150px">
+                            {{ form_urt.proprietario_celular }}
+                            <label>{{ form_urt.proprietario_celular.label }}</label>
+                        </div>
+                        <div class="form-floating mb-3" style="width:350px">
+                            {{ form_urt.proprietario_email }}
+                            <label>{{ form_urt.proprietario_email.label }}</label>
+                        </div>
+                    </div>
+                    
+                    <!-- Localização da URT -->
+                    <div class="grid" style="font-size: 14px;">
+                        <div class="form-floating mb-3" style="width:100px;">
+                            {{ form_urt.uf }}
+                            <label>{{ form_urt.uf.label }}</label>
+                        </div>
+                        <div class="form-floating mb-3" style="width:250px">
+                            {{ form_urt.municipio }}
+                            <label>{{ form_urt.municipio.label }}</label>
+                        </div>
+                        <div class="form-floating mb-3 full-width">
+                            {{ form_urt.endereco }}
+                            <label>{{ form_urt.endereco.label }}</label>
+                        </div>
+                        <div class="form-floating mb-3" style="width:200px">
+                            {{ form_urt.latlong }}
+                            <label>{{ form_urt.latlong.label }}</label>
+                        </div>
+                        <div class="form-floating mb-3" style="width:150px">
+                            {{ form_urt.pluscode }}
+                            <label>{{ form_urt.pluscode.label }}</label>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Dados do Experimento -->
+            <div class="horizontal-sections">
+                <div class="section">
+                    <h3>Dados do Experimento</h3>
+                    
+                    <!-- Área e Precipitação -->
+                    <div class="grid" style="font-size: 14px;">
+                        <div class="form-floating mb-3" style="width:180px;">
+                            {{ form_urt.area_experimento }}
+                            <label>{{ form_urt.area_experimento.label }}</label>
+                        </div>
+                        <div class="form-floating mb-3" style="width:200px;">
+                            {{ form_urt.textura_solo }}
+                            <label>{{ form_urt.textura_solo.label }}</label>
+                        </div>
+                        <div class="form-floating mb-3" style="width:200px;">
+                            {{ form_urt.local_preparo_amostras }}
+                            <label>{{ form_urt.local_preparo_amostras.label }}</label>
+                        </div>
+                    
+                        <div class="form-floating mb-3" style="width:200px; margin-left: 5%;">
+                            {{ form_urt.precipitacao_anual }}
+                            <label>{{ form_urt.precipitacao_anual.label }}</label>
+                        </div>
+                        <div class="form-floating mb-3" style="width:150px;">
+                            {{ form_urt.periodo_chuva_inicio }}
+                            <label>{{ form_urt.periodo_chuva_inicio.label }}</label>
+                        </div>
+                        <div class="form-floating mb-3" style="width:150px;">
+                            {{ form_urt.periodo_chuva_fim }}
+                            <label>{{ form_urt.periodo_chuva_fim.label }}</label>
+                        </div>
+                        <div class="form-floating mb-3" style="width:150px;">
+                            {{ form_urt.periodo_seca_inicio }}
+                            <label>{{ form_urt.periodo_seca_inicio.label }}</label>
+                        </div>
+                        <div class="form-floating mb-3" style="width:150px;">
+                            {{ form_urt.periodo_seca_fim }}
+                            <label>{{ form_urt.periodo_seca_fim.label }}</label>
+                        </div>
+                    </div>            
+
+                    <!-- Espécies Vegetais e Animais -->
+                    <div class="subsecao-group">
+                        
+                        <!-- Espécies Vegetais -->
+                        <div class="subsecao" style="margin-right: 4%; padding-top: 20px;">
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end" style="justify-content:space-between !important;margin-left: 5px;">
+                                <h4>Espécies Vegetais</h4>
+                                <button class="btn btn-primary me-md-2" type="button" id="btnNovoVegetal" style="font-size: 10px; background-color: green; border-color: green;">
+                                    <i class="fas fa-plus" style="font-size: 14px;"></i> 
+                                </button>
+                            </div>
+                            <table class="table table-striped table-hover fixed-size-table" style="font-size: 12px;" id="tabEspeciesVegetais">
+                                <thead>
+                                    <tr>
+                                        <th class="col-id">ID</th>
+                                        <th class="col-texto6">Espécie</th>
+                                        <th class="col-texto20">Variedades</th>
+                                        <th class="col-texto4">Silagem</th>
+                                        <th class="col-valor5">Área (ha)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in tab_especies_vegetais %}
+                                    <tr data-id="{{ item.id }}">
+                                        <td class="col-id">{{ item.id }}</td>
+                                        <td class="col-texto6">{{ item.get_especie_vegetal_display }}</td>
+                                        <td class="col-texto12">{{ item.variedades }}</td>
+                                        <td class="col-texto4">
+                                            {% if item.producao_silagem %}
+                                                Sim
+                                            {% else %}
+                                                Não
+                                            {% endif %}
+                                        </td>
+                                        <td class="col-valor5">{{ item.area_utilizada }}</td>
+                                        
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table> 
+                        </div>
+                        
+                        <!-- Espécies Animais -->
+                        <div class="subsecao" style="font-size: 14px; padding-top: 20px;">
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end" style="justify-content:space-between !important;margin-left: 5px;">
+                                <h4>Espécies Animais</h4>
+                                <button class="btn btn-primary me-md-2" type="button" id="btnNovoAnimal" style="font-size: 10px; background-color: green; border-color: green;">
+                                    <i class="fas fa-plus" style="font-size: 14px;"></i> 
+                                </button>
+                            </div>
+                            <table class="table table-striped table-hover fixed-size-table" style="font-size: 12px;" id="tabEspeciesAnimais">
+                                <thead>
+                                    <tr>
+                                        <th class="col-id">ID</th>
+                                        <th class="col-texto6">Espécie</th>
+                                        <th class="col-texto20">Raças</th>
+                                        <th class="col-valor5">Área (ha)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in tab_especies_animais %}
+                                    <tr data-id="{{ item.id }}">
+                                        <td class="col-id">{{ item.id }}</td>
+                                        <td class="col-texto6">{{ item.get_especie_animal_display }}</td>
+                                        <td class="col-texto20">{{ item.racas }}</td>
+                                        <td class="col-valor5">{{ item.area_utilizada }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table> 
+                        </div>
+
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <!-- Dados do Técnico Responsável -->
+            <div class="horizontal-sections">
+                <div class="section">
+                    <h3>Técnico Responsável</h3>
+                    
+                    <div class="grid" style="font-size: 14px;">
+                        <div class="form-floating mb-3 full-width">
+                            <input type="text" class="form-control" id="id_tecnico_tecnico_atual" value="{% if urt.tecnico_atual %}{{ urt.tecnico_atual.tecnico }}{% else %}Nenhum técnico atribuído{% endif %}" readonly>
+                            <label for="id_tecnico_tecnico_atual">Técnico Atual</label>
+                        </div>
+                        <div class="form-floating mb-3" style="width: 110px;">
+                            <input type="text" class="form-control" id="id_tecnico_data_inicio" value="{% if urt.tecnico_atual.data_inicio %}{{ urt.tecnico_atual.data_inicio|date:'d/m/Y' }}{% else %}-{% endif %}" readonly>
+                            <label for="id_tecnico_data_inicio">Data Início</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="id_tecnico_formacao" value="{% if urt.tecnico_atual.formacao %}{{ urt.tecnico_atual.formacao }}{% else %}-{% endif %}" readonly>
+                            <label for="id_tecnico_formacao">Formação</label>
+                        </div>
+                        <div class="form-floating mb-3" style="width: 140px;">
+                            <input type="text" class="form-control" id="id_tecnico_celular" value="{% if urt.tecnico_atual.celular %}{{ urt.tecnico_atual.celular }}{% else %}-{% endif %}" readonly>
+                            <label for="ct_fiscal">Celular</label>
+                        </div>
+                        <div class="form-floating mb-3" style="width: 250px;">
+                            <input type="text" class="form-control" id="id_tecnico_email" value="{% if urt.tecnico_atual.email %}{{ urt.tecnico_atual.email }}{% else %}-{% endif %}" readonly>
+                            <label for="ct_fiscal">Email</label>
+                        </div>
+                        <button type="button" id="btnModalTecnicos" style="font-size: 16px !important; background-color: transparent; border: none; border-radius: 10px; height: calc(3.5rem + 2px);">
+                            <i class="fas fa-history"></i>
+                            Histórico
+                        </button>
+                    </div>
+                    
+                    
+                </div>
+
+            </div>
+
+            <!-- Contatos Administrativos -->
+            <div class="horizontal-sections">
+                <div class="section">
+                    <h3>Contatos Administrativos</h3>
+                    
+                    <!-- Federação e SENAR -->
+                    <div class="grid" style="font-size: 14px;">
+                        <div class="form-floating mb-3" style="width:300px">
+                            {{ form_urt.federacao_presidente }}
+                            <label>{{ form_urt.federacao_presidente.label }}</label>
+                        </div>
+                        <div class="form-floating mb-3" style="width:200px">
+                            {{ form_urt.federacao_telefone }}
+                            <label>{{ form_urt.federacao_telefone.label }}</label>
+                        </div>
+                        <div class="form-floating mb-3" style="width:280px">
+                            {{ form_urt.federacao_email }}
+                            <label>{{ form_urt.federacao_email.label }}</label>
+                        </div>
+
+                        <div class="form-floating mb-3" style="width:300px">
+                            {{ form_urt.senar_superintendente }}
+                            <label>{{ form_urt.senar_superintendente.label }}</label>
+                        </div>
+                        <div class="form-floating mb-3" style="width:200px">
+                            {{ form_urt.senar_telefone }}
+                            <label>{{ form_urt.senar_telefone.label }}</label>
+                        </div>
+                        <div class="form-floating mb-3" style="width:280px">
+                            {{ form_urt.senar_email }}
+                            <label>{{ form_urt.senar_email.label }}</label>
+                        </div>
+                    </div>
+
+                    <!-- Supervisor da Federação -->
+                    <div class="grid" style="font-size: 14px;">
+                        <div class="form-floating mb-3" style="width:300px">
+                            {{ form_urt.supervisor_nome }}
+                            <label>{{ form_urt.supervisor_nome.label }}</label>
+                        </div>
+                        <div class="form-floating mb-3" style="width:200px">
+                            {{ form_urt.supervisor_telefone }}
+                            <label>{{ form_urt.supervisor_telefone.label }}</label>
+                        </div>
+                        <div class="form-floating mb-3" style="width:280px">
+                            {{ form_urt.supervisor_email }}
+                            <label>{{ form_urt.supervisor_email.label }}</label>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            
+            <!-- Observações Gerais -->
+            <div class="horizontal-sections">
+                <div class="section">
+                    <h3>Observações Gerais</h3>
+                    <div class="grid" style="font-size: 14px;">
+                        <div class="form-floating mb-3 full-width">
+                            {{ form_urt.observacoes_gerais }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    
+    <!-- Modal -->
+    {% include "urts/urt_vegetal_modal.html" %}  
+    {% include "urts/urt_animal_modal.html" %}
+    {% include "urts/urt_tecnicos_modal.html" %}
+    {% include "urts/urt_tecnicos_ficha_modal.html" %} 
+
+
+    <!-- Scripts -->
+    <script src="{% static 'js/urt_ficha.js' %}"></script>
+
+    
+
+{% endblock %}

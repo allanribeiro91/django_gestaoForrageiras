@@ -1,0 +1,270 @@
+@page {
+    size: A4;
+    margin: 0;
+}
+body {
+    width: 210mm;
+    height: 305mm;
+    margin: 0 auto;
+    padding: 10mm;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* HEADER */
+    .header {
+        /* background-color: #e7e7e7; */
+        /* border-radius: 5px; */
+        height: 2%; /* Valor fixo para garantir que a altura seja suficiente */
+        width: 100%;
+        display: flex;
+        justify-content: space-between; /* Alinha os filhos à esquerda e à direita */
+        align-items: center; /* Alinha os filhos verticalmente no centro */
+        border-bottom: #a1a1a1 solid 1px;
+    }
+
+    .titulo-relatorio {
+        font-weight: normal;
+        font-size: 10px;
+        width: 100%; /* Ajustado para 70% da largura do cabeçalho */
+    }
+
+    .responsavel-exportacao {
+        font-weight: normal;
+        font-size: 10px;
+        text-align: right;
+        width: 30%; /* Ajustado para 70% da largura do cabeçalho */
+    }
+
+    .logo-projeto {
+        display: flex;
+        align-items: center; /* Alinha a imagem verticalmente no centro */
+        justify-content: flex-end; /* Alinha a imagem à direita */
+        height: 90%; /* Ajustado para 80% da altura do cabeçalho */
+        padding: 5px;
+    }
+
+    .logo-projeto img {
+        height: 80%; /* A imagem ocupará 100% da altura do .logo-sisdaf */
+    }
+
+
+
+/* CONTENT */
+    .content{
+        height: 95%; /* Valor fixo para garantir que a altura seja suficiente */
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .log{
+        height: 5%;
+        border-radius: 5px;
+        /* background-color: #f0f0f0; */
+    }
+
+    .horizontal-section {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;  /* Alinha os itens ao topo */
+        width: 100%;
+        height: auto;
+        margin-bottom: 10px;
+    }
+
+    .section {
+
+        width: 100%;
+        page-break-inside: avoid;
+    }
+
+    .section-titulo {
+        font-size: 12px;
+        font-weight: bold;
+        border: #e4e4e4 1px solid;
+        border-radius: 5px;
+        padding: 5px;
+        margin-bottom: 5px;
+        background-color: #d4d4d4;
+    }
+
+    .grid {
+        display: flex;
+        justify-content:space-between;
+        flex-wrap: wrap;  /* Permite que os itens ocupem várias linhas */
+        width: 100%;
+        gap: 3px;
+    }
+
+    .box {
+        padding: 5px;
+        border: 1px solid;
+        border-radius: 5px;
+        border-color: #d4d4d4;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    .box-titulo{
+        font-size: 10px;
+        padding-left: 5px;
+        padding-right: 15px;
+    }
+
+    .box-conteudo{
+        font-size: 12px;
+        padding-left: 5px;
+        padding-right: 15px;
+    }
+
+
+    .full-width {
+        flex-grow: 2;  /* Cresce para ocupar o espaço disponível */
+        margin-right: 5px;
+    }
+
+
+    .box-observacoes {
+        padding: 5px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        width: 100%;
+        text-align: justify;
+    }
+
+    /* Tabela */
+    .tabela-relatorio {
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        width: 95%;
+
+    }
+    .tabela-relatorio thead th {
+        border-bottom: 1px solid;
+    }
+    .tabela-relatorio tbody td {
+        border-bottom: 1px solid #a1a1a1;
+    }
+    .tabela-relatorio td, .tabela-relatorio th {
+        height: 25px; /* Ajuste este valor conforme necessário */
+    }
+    
+
+/*--colunas--*/
+.col-id {
+    width: 4% !important;
+}
+.col-produto {
+    width: 15% !important;
+    text-align: left;
+}
+
+.col-tipo {
+    width: 6% !important;
+    text-align: left;
+}
+
+.col-valor {
+    width: 6% !important;
+    text-align: right;
+    margin-right: 1px;
+}
+
+.col-contrato {
+    width: 3% !important;
+    text-align: right !important;
+    margin-right: 1px;
+}
+
+.col-saldo {
+    width: 8% !important;
+    text-align: right;
+}
+
+.status-vigente {
+    background-color: #c2f6ff !important;
+}
+
+.status-encerrado {
+    background-color: #b6b6b6 !important;
+}
+
+.status-suspenso {
+    background-color: #ffffd4 !important;
+}
+
+.status-cancelado {
+    background-color: #ffcbc2 !important;
+}
+
+
+/* FOOTER */
+    .footer{
+        height: 2%; /* Valor fixo para garantir que a altura seja suficiente */
+        width: 100%;
+        display: flex;
+        justify-content: space-between; /* Alinha os filhos à esquerda e à direita */
+        align-items: center; /* Alinha os filhos verticalmente no centro */
+        border-top: #a1a1a1 solid 1px;
+        font-size: 10px;
+    }
+
+    
+
+    @media print {
+        .section-titulo {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+            background-color: #d4d4d4;
+        }
+
+    
+        .box.status-vigente {
+            background-color: #c2f6ff !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        
+        .box.status-encerrado {
+            background-color: #b6b6b6;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        
+        .box.status-suspenso {
+            background-color: #ffffd4;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        
+        .box.status-cancelado {
+            background-color: #ffcbc2;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .page-break {
+            page-break-after: always;
+        }   
+        
+    }
+
+    @page {
+        @top-center {
+            content: element(header);
+        }
+        @bottom-center {
+            content: element(footer);
+        }
+    }
+
+    .header {
+        position: running(header);
+    }
+    
+    .footer {
+        position: running(footer);
+    }
+
+

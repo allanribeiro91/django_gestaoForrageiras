@@ -1,0 +1,272 @@
+/*<!-- Barra Superior --> */
+/* Estilização para a barra superior para utilizar flexbox */
+.barra-superior {
+    display: flex;
+    justify-content: space-between; /* Alinha horizontalmente */
+    align-items: center; /* Alinha verticalmente */
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+/* Estilização para as abas */
+.tabs {
+    display: flex;
+    border-bottom: 1px solid #E5E5E5;
+    margin-bottom: 20px;
+    font-size: 12px;
+    width: 100%;  /* Define a largura para 80% */
+}
+
+/* Estilização para os botões */
+.buttons {
+    width: 20%;  /* Define a largura para 20% */
+    display: flex;
+    justify-content: flex-end; /* Alinha o conteúdo à direita */
+    margin-bottom: 20px;
+    margin-right: 10px;
+}
+
+/* Estilização para os botões das abas */
+.tab-button {
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: #000;
+    font-weight: normal;
+    border-bottom: 2px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    
+}
+
+/* Estilização para os ícones nos botões das abas */
+.tab-button i {
+    margin-right: 8px;
+}
+
+/* Estilização para a aba ativa */
+.tab-button.active {
+    border-bottom: 2px solid #000;
+    font-weight: bold;
+}
+
+/* Estilização para a aba ao passar o mouse */
+.tab-button:hover {
+    opacity: 0.7;
+}
+
+.d-grid{
+    font-size: 12px;
+}
+
+
+
+
+/*<!-- Meus Dados --> */
+#usuarioForm {
+    padding: 0px 10px 10px 10px;
+    font-size: 14px !important;
+}
+
+.form-control{
+    font-size: 14px;
+}
+
+.form-select{
+    font-size: 14px;
+}
+
+.horizontal-sections {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;  /* Alinha os itens ao topo */
+    width: 100%;
+}
+
+/* IMAGEM */
+img.rounded-circle {
+    width: 100%;
+    min-width: 100%;  /* Define um mínimo para garantir que a imagem não fique muito pequena */
+    margin-left: 17px;
+    margin-top: 10px;
+    border: 1px solid #858585;
+}
+
+.image-upload {
+    width: 7%;  /* ou qualquer outra porcentagem ou valor fixo que você preferir */
+    min-width: 5%;  /* ou outro valor mínimo que você achar adequado */
+    margin-left: 7px;
+    
+}
+
+.image-upload, .section {
+    align-self: flex-start;
+}
+
+.section {
+    margin: 5px 0px 15px 10px;
+    padding: 0px 10px 10px 10px;
+    background-color: #FFF;
+    border: 1px solid #E5E5E5;
+    border-radius: 5px;
+}
+
+.subsecao1 {
+    width: 90%;
+    min-width: 60%;  /* Define um mínimo para garantir que a seção não fique muito pequena */
+}
+
+.subsecao2 {
+    width: 50%;
+    min-width: 10%;  /* Define um mínimo para garantir que a seção não fique muito pequena */
+}
+
+.grid {
+    display: flex;
+    justify-content: flex-start;  /* Alinha os itens à esquerda */
+    /*align-items: center;  /* Alinha os itens verticalmente */
+    flex-wrap: wrap;  /* Permite que os itens ocupem várias linhas */
+    gap: 10px;  /* Espaçamento entre os itens */
+}
+
+
+.grid input, .grid select {
+    flex: 1;
+    flex-grow: 1;
+    /*align-items: center;  /* Alinha os itens verticalmente */
+    margin: 0;  /* Remove as margens */
+    padding: 8px 10px;  /* Normaliza o padding */
+    border: 1px solid #E5E5E5;  /* Normaliza as bordas */
+    border-radius: 5px;
+}
+
+.half-section {
+    width: calc(50% - 10px);
+    box-sizing: border-box;
+}
+
+/* ==== BOTÕES ==== */
+.buttons {
+    display: flex;
+    justify-content: flex-end; /* Alinha os botões à direita */
+    gap: 10px;                  /* Define um espaço entre os botões */
+    margin-top: 20px;
+}
+
+.buttons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.buttons i {
+    font-size: 18px;  /* ajuste o tamanho como preferir */
+    color: rgb(0, 0, 0);  /* ajuste a cor como preferir */
+}
+
+.buttons button:hover {
+    opacity: 0.9;
+}
+
+/* ==== PERSONALIZACOES ==== */
+h3 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+input[name="ctt_ramal_ms"] {
+    width: 100px !important;
+    text-align: left;
+}
+
+input[name="ctt_celular"] {
+    width: 140px !important;
+    text-align: left;
+}
+
+input[name="dp_cpf"], input[name="dp_data_nascimento"], 
+select[name="dp_genero"], select[name="dp_cor_pele"],
+input[name="dp_unidade_daf"], input[name="dp_data_inicio"] {
+    flex: none;
+    width: 160px !important;
+    text-align: left;
+}
+
+input[name="dp_cpf"] {
+    text-align: center;
+}
+
+.full-width {
+    flex-grow: 2;  /* Cresce para ocupar o espaço disponível */
+}
+
+.subsecao_vinculo{
+    width: 25% !important;
+}
+
+.subsecao_alocacao{
+    width: 20% !important;
+}
+
+input[name="vms_tipo_vinculo"] {
+    width: 160px !important;
+
+}
+
+.clickable-input {
+    cursor: pointer;
+}
+  
+
+
+
+
+
+
+/* ==== TABELA DE FORMAÇÃO ==== */
+.formacao-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+.formacao-table th, .formacao-table td {
+    border: 1px solid #E5E5E5;
+    padding: 8px;
+    text-align: left;
+}
+
+.formacao-table tbody tr:hover {
+    background-color: #f2f2f2;
+    cursor: pointer;
+}
+
+/* ==== BOTÃO DE ADICIONAR FORMAÇÃO ==== */
+#btnAddFormacao {
+    color: rgb(0, 0, 0);
+    display: inline-flex;  /* Adicione esta linha */
+    align-items: center;  /* Adicione esta linha */
+    justify-content: center; /* Adicione esta linha se necessário */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+#btnAddFormacao i {
+    margin-right: 10px;  /* Adicione uma margem à direita do ícone */
+}
+
+.half-width {
+    flex: 0 0 calc(50% - 10px); /* 50% do espaço disponível com um pequeno espaço à direita */
+}
+
+input[readonly] {
+    background: rgb(228, 228, 228);
+}

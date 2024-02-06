@@ -1,0 +1,162 @@
+{% extends 'main/base_main.html' %}
+{% load static %}
+{% block extra_head %}
+<!-- <link rel="stylesheet" href="{% static '\styles\contrato_ficha.css' %}"> -->
+    <link rel="stylesheet" href="{% static '\styles\contratos.css' %}">
+    
+{% endblock %}
+{% block content %}    
+    
+    <!-- Caminho da Área de Trabalho -->
+    <div class="breadcrumb2">
+        <i class="fa-solid fa-file-signature"></i></i>&nbsp;Contratos
+    </div>
+
+    <!-- Barra Superior -->
+    <div class="barra-superior">
+        <!-- Abas -->
+        <div class="tabs">
+            <button class="tab-button" id="abaARPS" onclick="location.href='{% url 'arps' %}'">ARPs</button>
+            <button class="tab-button active" id="abaContratos" onclick="location.href='{% url 'contratos' %}'">Contratos</button>
+            <button class="tab-button" id="abaARPS" onclick="location.href='{% url 'arps' %}'">TEDs</button>
+        </div>
+    </div>
+
+    <div class="horizontal-sections">
+        
+        <div class="section numbers">
+            <div class="filter-title">
+                Total de Contratos
+            </div>
+            <div id="numeroContratos" class="total-geral">{{ tabContratos.count }}</div>
+        </div>
+        
+        <div class="section filter">
+            <div class="filter-title">Filtros
+                Filtros
+            </div>
+            
+            <!-- Status -->
+            <div class="form-floating tipo-fornecedor">
+                <select class="form-select" aria-label="Floating label select example" name="status_proaq" id="status_proaq">
+                    <option value=""></option>
+                    {% for value, display in STATUS_PROAQ %}
+                    <option value="{{ value }}">{{ display }}</option>
+                    {% endfor %}
+                </select>
+                <label for="floatingSelect">Status</label>
+            </div>
+
+            <!-- Modalidade de Aquisição -->
+            <div class="form-floating tipo-fornecedor">
+                <select class="form-select" aria-label="Floating label select example" name="modalidade_aquisicao" id="modalidade_aquisicao">
+                    <option value=""></option>
+                    {% for value, display in MODALIDADE_AQUISICAO %}
+                    <option value="{{ value }}">{{ display }}</option>
+                    {% endfor %}
+                </select>
+                <label for="floatingSelect">Mod. de Aquisição</label>
+            </div>
+
+             <!-- Unidade DAF -->
+             <div class="form-floating tipo-fornecedor">
+                <select class="form-select" aria-label="Floating label select example" name="unidade_daf" id="unidade_daf">
+                    <option value=""></option>
+                    {% for value, display in UNIDADE_DAF %}
+                    <option value="{{ value }}">{{ display }}</option>
+                    {% endfor %}
+                </select>
+                <label for="floatingSelect">Unidade DAF</label>
+            </div>            
+            
+            <!-- Denominações Genéricas -->
+            <div class="form-floating fornecedor">
+                <select class="form-select" aria-label="Floating label select example" name="denominacao" id="denominacao">
+                    <option value=""></option>
+                    {% for id, name in DENOMINACOES %}
+                    <option value="{{ id }}">{{ name }}</option>
+                    {% endfor %}
+                </select>
+                <label for="floatingSelect">Denominações Genéricas</label>
+            </div>
+
+            
+                
+            <button class="custom-btn limpar-filtro-fornecedores">
+                <i class="fa fa-times" style="font-size: 1.5vw" title="Limpar filtros"></i>
+                <span style="font-size: 10px;">Limpar Filtros</span>
+            </button>
+        </div>
+
+        <div class="section funcionalidades">
+            <div style="font-size: 12px; font-weight: bold;">
+                Funcionalidades
+            </div>
+            <div class="btn-container">
+                <!--<a href="{% url 'contrato_novo' %}" style="text-decoration: none;">-->
+                    <button class="custom-btn" data-bs-toggle="modal" data-bs-target="#contratoNovoModal" id="inserir_contrato">
+                        <div class="icon-container">
+                            <i class="fa fa-plus-circle" style="font-size: 1.5vw"></i>
+                            <span>Inserir</span>
+                        </div>
+                    </button>
+                <!--</a>-->
+                <button class="custom-btn" id="exportarBtn">
+                    <div class="icon-container">
+                        <i class="fa fa-download" style="font-size: 1.5vw"></i>
+                        <span>Exportar</span>
+                    </div>                    
+                </button>
+                
+            </div>   
+        </div>
+        
+    </div>
+
+    <div class="section-tabela">
+        <table class="table table-striped table-hover fixed-size-table" style="font-size: 14px;" id="tabContratos">
+            <thead>
+                <tr>
+                    <th class="col-id">ID</th>
+                    <th class="col-status">Status</th>
+                    <th class="col-unidadedaf">Unidade DAF</th>
+                    <th class="col-modalidade">Mod. Aquisição</th>
+                    <th class="col-contrato">Nº Contrato</th>
+                    <th class="col-data">Publicação</th>
+                    <th class="col-data">Vigência</th>
+                    <th class="col-denominacao">Denominação</th>
+                    <th class="col-fornecedor">Fornecedor</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in tabContratos %}
+                <tr data-id="{{ item.id }}">
+                    <td class="col-id">{{ item.id }}</td>
+                    <td class="col-status">{{ item.get_status_display }}</td>
+                    <td class="col-unidadedaf" style="text-transform: uppercase;">{{ item.unidade_daf }}</td>
+                    <td class="col-modalidade">{{ item.get_modalidade_aquisicao_display }}</td>
+                    <td class="col-contrato">{{ item.numero_contrato }}</td>
+                    <td class="col-data">{{ item.data_publicacao|date:"d/m/Y" }}</td>
+                    <td class="col-data">{{ item.data_vigencia|date:"d/m/Y" }}</td>
+                    <td class="col-denominacao">{{ item.denominacao.denominacao }}</td>
+                    <td class="col-fornecedor">{{ item.fornecedor.nome_fantasia }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>  
+    </div>
+    
+    <div id="pagination">
+            <button id="denominacaoPreviousPage" class="page" disabled>Anterior </button>
+            <span id="denominacaoCurrentPage">1</span>
+            <button id="denominacaoNextPage" class="page">Próximo</button>
+    </div>
+
+    </div>
+    
+    <script src="{% static 'js/contratos.js' %}"></script>
+
+    <!-- Modais -->
+    {% include "contratos/contrato_inserir_modal.html" %}
+
+{% endblock %}

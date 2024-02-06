@@ -1,0 +1,130 @@
+<!-- Modal -->
+{% load static %}
+<style>
+    .tags-column{
+        float: left;
+        width: 33.33%;
+        padding: 5px;
+    }
+
+    .custom-modal-width-parcela {
+        max-width: 70%;
+        font-size: 16px !important;
+    }
+
+    .horizontal-sections-modal-parcela {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        width: 100%;
+        height: 75px;
+    }
+
+    .modal-content{
+        height: 60%;
+    }
+
+    
+
+</style>
+
+<!-- Modal -->
+<div class="modal fade" id="especieAnimalModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable custom-modal-width-parcela" role="document">
+        <div class="modal-content">
+            
+            <div class="modal-header">
+                <h5 class="modal-title">Espécie Animal</h5>
+                <button type="button" class="close closeModalButton" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                
+                <!-- Formulário -->
+                <form id="especieAnimalForm">
+                {% csrf_token %}
+
+                    <!-- Logs -->
+                    <div class="horizontal-sections-modal-parcela">
+                        <div class="section" style="border: 0px !important;">
+                            <div class="grid" style="font-size: 10px;">
+                                <div class="form-floating mb-3" style="font-size: 12px;">
+                                    <input type="text" class="form-control log_data" id="animal_id" readonly>
+                                    <label for="floatingInput">ID</label>
+                                </div>
+                                <div class="form-floating mb-3" style="font-size: 12px;">
+                                    <input type="text" class="form-control log_data" id="animal_log_data_registro" readonly>
+                                    <label for="floatingInput">Data do Registro</label>
+                                </div>
+                                <div class="form-floating mb-3" style="font-size: 12px;">
+                                    <input type="text" class="form-control log_responsavel" id="animal_log_responsavel_registro" readonly>
+                                    <label for="floatingInput">Responsável pelo Registro</label>
+                                </div>
+                                <div class="form-floating mb-3" style="font-size: 12px;">
+                                    <input type="text" class="form-control log_data" id="animal_log_ult_atualizacao" readonly>
+                                    <label for="floatingInput">Última Atualização</label>
+                                </div>
+                                <div class="form-floating mb-3" style="font-size: 12px;">
+                                    <input type="text" class="form-control log_responsavel" id="animal_log_responsavel_atualizacao" readonly>
+                                    <label for="floatingInput">Responsável Atualização</label>
+                                </div>
+                                <div class="form-floating mb-3" style="font-size: 12px;">
+                                    <input type="text" class="form-control log_edicoes" id="animal_log_edicoes" readonly>
+                                    <label for="floatingInput">Nº Edições</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dados da Espécie Animal -->
+                    <div class="horizontal-sections-modal-parcela">
+                        <div class="section" style="border: 0px !important;">
+                            <div class="grid" style="font-size: 14px;">
+                                <div class="form-floating mb-3">
+                                    {{ form_especie_animal.especie_animal }}
+                                    <label>{{ form_especie_animal.especie_animal.label }}</label>
+                                </div>
+                                <div class="form-floating mb-3 full-width">
+                                    {{ form_especie_animal.racas }}
+                                    <label>{{ form_especie_animal.racas.label }}</label>
+                                </div>                          
+                                <div class="form-floating mb-3">
+                                    {{ form_especie_animal.area_utilizada }}
+                                    <label>{{ form_especie_animal.area_utilizada.label }}</label>
+                                </div>                       
+                            </div>
+                            <div class="grid" style="font-size: 14px;">
+                                <div class="form-floating mb-3 full-width">
+                                    {{ form_especie_animal.observacoes_gerais }}
+                                    <label>{{ form_especie_animal.observacoes_gerais.label }}</label>
+                                </div>                    
+                            </div>
+
+                             <!-- ID da URT -->
+                             <input type="hidden" id="id_urt_animal" name="id_urt_animal" readonly>
+                            
+                        </div>
+                        
+                    </div>
+                
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary closeModalButton" data-dismiss="modal" style="background-color: rgb(58, 58, 58); border-color: rgb(58, 58, 58);">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="btnDeletarAnimal" style="background-color: rgb(221, 0, 0); border-color: rgb(221, 0, 0);">Deletar</button>
+                <button type="button" class="btn btn-primary" id="btnSalvarAnimal" style="background-color: rgb(13, 110, 253); border-color: rgb(13, 110, 253);">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+   
+<script>
+    document.querySelectorAll('.closeModalButton').forEach(button => {
+        button.addEventListener('click', function() {
+            $('#especieAnimalModal').modal('hide');
+        });
+    });
+</script>

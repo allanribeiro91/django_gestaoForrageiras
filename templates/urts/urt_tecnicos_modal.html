@@ -1,0 +1,125 @@
+<!-- Modal -->
+{% load static %}
+{% load humanize %}
+<style>
+    .tags-column{
+        float: left;
+        width: 33.33%;
+        padding: 5px;
+    }
+
+    .custom-modal-width-tecnicos {
+        min-width: 60%;
+        font-size: 16px !important;
+    }
+
+    .horizontal-sections-modal-parcela {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;  /* Alinha os itens ao topo */
+        width: 100%;
+        height: 75px;
+    }
+
+    .modal-content{
+        height: 50%;
+    }
+
+    .modal-body{
+        height: auto;
+    }
+
+    .col-fiscal-nome {
+        width: 30% !important;
+        text-align: left !important;
+    }
+    .col-fiscal-vinculo {
+        width: 10% !important;
+        text-align: left !important;
+    }
+    .col-fiscal-status {
+        width: 10% !important;
+        text-align: left !important;
+    }
+    .col-fiscal-data {
+        width: 10% !important;
+        text-align: left !important;
+    }
+
+
+</style>
+
+<!-- Modal -->
+<div class="modal fade" id="urtTecnicosModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable custom-modal-width-tecnicos" role="document">
+        <div class="modal-content">
+            
+            <!-- Cabeçalho -->
+            <div class="modal-header">
+                <h5 class="modal-title">Técnicos da URT</h5>
+                <button type="button" class="close closeModalButtonTecnicos" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <!-- Corpo -->
+            <div class="modal-body">
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end" style="font-size: 14px; text-align: right !important;">
+                    <button class="btn btn-primary me-md-2" type="button" data-bs-toggle="modal"  id="btnNovoTecnico" data-bs-target="" style="font-size: 12px; background-color: green; border-color: green;">
+                        <i class="fas fa-plus" style="font-size: 14px;"></i> 
+                        &nbsp;Inserir Técnico
+                    </button>
+                </div>
+
+                <div class="horizontal-sections">
+                    <div class="section">                      
+                        <div class="grid" style="font-size: 14px;">
+                            <table class="table table-striped table-hover fixed-size-table" style="font-size: 12px;" id="tabTecnicosURT">
+                                <thead>
+                                    <tr>
+                                        <th class="col-id">ID</th>
+                                        <th class="col-texto15">Técnico</th>
+                                        <th class="col-texto8">Formação</th>
+                                        <th class="col-texto6">Celular</th>
+                                        <th class="col-texto8">Email</th> 
+                                        <th class="col-texto6">Status Contrato</th>
+                                        <th class="col-texto4">Data Início</th>
+                                        <th class="col-texto4">Data Fim</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in tab_tecnicos %}
+                                    <tr data-id="{{ item.id }}">
+                                        <th class="col-id" style="font-weight: normal;">{{ item.id }}</th>
+                                        <td class="col-texto15">{{ item.tecnico }}</td>
+                                        <td class="col-texto8">{{ item.get_formacao_tecnica_display }}</td>
+                                        <td class="col-texto6">{{ item.celular }}</td>
+                                        <td class="col-texto8">{{ item.email }}</td>
+                                        <td class="col-texto6">{{ item.get_status_contrato_display }}</td>
+                                        <td class="col-texto4">{{ item.data_inicio|date:"d/m/Y" }}</td>
+                                        <td class="col-texto4">{{ item.data_fim|date:"d/m/Y"|default:'-' }}</td>                                
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table> 
+                        </div>
+    
+                    </div>
+                </div>
+
+
+            </div>  
+                
+        </div>
+    </div>
+</div>
+
+   
+<script>
+    document.querySelectorAll('.closeModalButtonTecnicos').forEach(button => {
+        button.addEventListener('click', function() {
+            $('#urtTecnicosModal').modal('hide');
+        });
+    });
+</script>

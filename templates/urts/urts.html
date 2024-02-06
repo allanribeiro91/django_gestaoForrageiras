@@ -1,0 +1,140 @@
+{% extends 'main/base_main.html' %}
+{% load static %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'styles/_tabelas.css' %}">
+    <link rel="stylesheet" href="{% static '\styles\urt.css' %}">
+    
+{% endblock %}
+{% block content %}    
+    
+    <!-- Caminho da Área de Trabalho -->
+    <div class="breadcrumb2">
+        <i class="fa-solid fa-seedling"></i></i>&nbsp;URTs
+    </div>
+
+    <!-- Barra Superior -->
+    <div class="barra-superior">
+        <!-- Abas -->
+        <div class="tabs">
+            <button class="tab-button active" id="abaURTs">Lista de URTs</button>
+        </div>
+    </div>
+
+    <div class="horizontal-sections">
+        
+        <!-- Total de URTs -->
+        <div class="section numbers">
+            <div class="filter-title">
+                Total de URTs
+            </div>
+            <div id="numeroProjetos" class="total-geral">{{ tab_urts.count }}</div>
+        </div>
+        
+        <!-- Filtros -->
+        <div class="section filter">
+            <div class="filter-title">Filtros
+                Filtros
+            </div>
+            
+            <!-- Regional -->
+            <div class="form-floating">
+                {{ form_filtro.regional }}
+                <label>{{ form_filtro.regional.label }}</label>
+            </div>
+
+            <!-- Status -->
+            <div class="form-floating">
+                {{ form_filtro.status }}
+                <label>{{ form_filtro.status.label }}</label>
+            </div>
+
+            <!-- Subprograma -->
+            <div class="form-floating">
+                {{ form_filtro.subprograma }}
+                <label>{{ form_filtro.subprograma.label }}</label>
+            </div>
+
+             <!-- Data Início -->
+             <div class="form-floating">
+                {{ form_filtro.data_inicio }}
+                <label>{{ form_filtro.data_inicio.label }}</label>
+            </div>
+            <div class="form-floating">
+                {{ form_filtro.data_fim }}
+                <label>{{ form_filtro.data_fim.label }}</label>
+            </div>               
+            
+            <!-- Plano de Trabalho -->
+            <div class="form-floating full-width">
+                {{ form_filtro.nome_plano_trabalho }}
+                <label>{{ form_filtro.nome_plano_trabalho.label }}</label>
+            </div>   
+
+            
+                
+            <button class="custom-btn limpar-filtro-fornecedores">
+                <i class="fa fa-times" style="font-size: 1.5vw" title="Limpar filtros" id="filtro_limpar"></i>
+                <span style="font-size: 10px;">Limpar Filtros</span>
+            </button>
+        </div>
+
+        <!-- Funcionalidades -->
+        <div class="section funcionalidades">
+            <div style="font-size: 12px; font-weight: bold;">
+                Funcionalidades
+            </div>
+            <div class="btn-container">
+                <button class="custom-btn" id="exportarBtn">
+                    <div class="icon-container">
+                        <i class="fa fa-download" style="font-size: 1.5vw"></i>
+                        <span>Exportar</span>
+                    </div>                    
+                </button>
+                
+            </div>   
+        </div>
+        
+    </div>
+
+    <div class="section-tabela">
+        <table class="table table-striped table-hover fixed-size-table" style="font-size: 14px;" id="tabURTs">
+            <thead>
+                <tr>
+                    <th class="col-texto4">ID</th>
+                    <th class="col-texto4">UF</th>
+                    <th class="col-texto12">Município</th>
+                    <th class="col-texto8">Precip. Anual</th>
+                    <th class="col-texto6">Chuvas/In.</th>
+                    <th class="col-texto6">Chuvas/Fim</th>
+                    <th class="col-texto8">Técnico Resp.</th>
+                    <th class="col-texto8">Celular</th>
+                    <th class="col-texto15">Espécies Vegetais</th>
+                    <th class="col-texto15">Espécies Animais</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in tab_urts %}
+                <tr data-id="{{ item.id }}">
+                    <td class="col-texto4">{{ item.id }}</td>
+                    <td class="col-texto4">{{ item.get_uf_display }}</td>
+                    <td class="col-texto12">{{ item.municipio }}</td>
+                    <td class="col-texto8">{{ item.precipitacao_anual|default:'NI' }}</td>
+                    <td class="col-texto6">{{ item.get_periodo_chuva_inicio_display|default:'NI' }}</td>
+                    <td class="col-texto6">{{ item.get_periodo_chuva_fim_display|default:'NI' }}</td>
+                    <td class="col-texto8">{{ item.tecnico_atual.tecnico }}</td>
+                    <td class="col-texto8">{{ item.tecnico_atual.celular }}</td>
+                    <td class="col-texto15">{{ item.especies_vegetais_urt|safe }}</td>
+                    <td class="col-texto15">{{ item.especies_animais_urt|safe }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>  
+    </div>
+    
+
+    </div>
+    
+    <script src="{% static 'js/urts.js' %}"></script>
+
+
+{% endblock %}
