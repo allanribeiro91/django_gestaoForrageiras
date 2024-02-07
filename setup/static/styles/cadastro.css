@@ -148,7 +148,7 @@ body, html {
 button {
     padding: 10px 20px;
     border: none;
-    background-color: rgb(8, 70, 0);
+    background-color: #020e4a;
     color: white;
     cursor: pointer;
     border-radius: 5px;
@@ -160,7 +160,7 @@ button {
 }
 
 button:hover {
-    background-color: rgb(17, 144, 0);
+    background-color: #fd3f3f;
     transition: 0.5s;
 }
 
