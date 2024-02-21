@@ -1,0 +1,46 @@
+{% extends 'main/base_main.html' %}
+{% load static %}
+{% load humanize %}
+{% block extra_head %}    
+    <link rel="stylesheet" href="{% static 'styles/_tabelas.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/urt_ficha.css' %}">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+{% endblock %}
+{% block content %}    
+    
+    <!-- Caminho da Área de Trabalho -->
+    <div class="breadcrumb2">
+        <i class="fa-solid fa-seedling"></i>&nbsp;URTs / URT {{ urt.municipio }} / Ciclos de Experimentação
+    </div>
+
+    <!-- Barra Superior -->
+    <div class="barra-superior">
+        <!-- Abas -->
+        <div class="tab-voltar">
+            <a href="{% url 'urts' %}" style="color: black;">
+                <i class="fas fa-arrow-left"></i> 
+            </a>
+        </div>
+        <div class="tabs">
+            <button class="tab-button" id="urt_ficha">Sobre a URT</button>
+            <button class="tab-button active" id="urt_ciclos">Ciclos</button>
+        </div>
+    </div>
+
+    <div class="area-scroll">
+        
+    </div>
+    
+    <!-- Modal -->
+    {% include "urts/urt_vegetal_modal.html" %}  
+    {% include "urts/urt_animal_modal.html" %}
+    {% include "urts/urt_tecnicos_modal.html" %}
+    {% include "urts/urt_tecnicos_ficha_modal.html" %} 
+
+
+    <!-- Scripts -->
+    <script src="{% static 'js/urt_ficha.js' %}"></script>
+
+    
+
+{% endblock %}

@@ -2,7 +2,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from datetime import date
 from django.contrib.auth.models import User
-from setup.choices import GENERO_SEXUAL, COR_PELE, VINCULO_MS, ORGAO_PUBLICO, UNIDADE
+from setup.choices import GENERO_SEXUAL, COR_PELE, UNIDADE
 
 class Usuarios(models.Model):
     #relacionamento

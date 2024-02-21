@@ -2,7 +2,7 @@ from django import forms
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from setup.choices import GENERO_SEXUAL, COR_PELE, VINCULO_MS, ORGAO_PUBLICO
+from setup.choices import GENERO_SEXUAL, COR_PELE
 from datetime import datetime
 from apps.usuarios.forms import UsuarioForms
 from apps.main.models import CustomLog, UserAccessLog

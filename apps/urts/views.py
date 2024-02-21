@@ -230,7 +230,7 @@ def especie_vegetal_deletar(request, vegetal_id=None):
             item_id=0,
             item_descricao="Deleção de Espécie Vegetal.",
             acao="Deletar",
-            observacoes=f"Usuário {request.user.username} deletou a Espécie Vegetal (ID {item.id}, Espécie Vegetal: {item.get_especie_vegetal_display}, Variedades: {item.variedades}) em {current_date_str}."
+            observacoes=f"Usuário {request.user.username} deletou a Espécie Vegetal (ID {item.id}, Espécie Vegetal: {item.get_especie_vegetal_display}) em {current_date_str}."
         )
         log_entry.save()
 
@@ -362,7 +362,7 @@ def especie_animal_deletar(request, animal_id=None):
             item_id=0,
             item_descricao="Deleção de Espécie Animal.",
             acao="Deletar",
-            observacoes=f"Usuário {request.user.username} deletou a Espécie Animal (ID {item.id}, Espécie Animal: {item.get_especie_animal_display}, Raças: {item.racas}) em {current_date_str}."
+            observacoes=f"Usuário {request.user.username} deletou a Esp. Animal (ID {item.id}, Espécie Animal: {item.get_especie_animal_display}) em {current_date_str}."
         )
         log_entry.save()
 
@@ -513,6 +513,10 @@ def tecnico_deletar(request, tecnico_id=None):
             "message": "Técnico da URT não encontrado."
             })
 
+
+#CICLOS DA URT
+def ciclos_urt(request, id_urt=None):
+    return render(request, 'urts/urt_ciclo.html')
 
 #RELATÓRIOS
 def urt_relatorio_ficha(request, urt_id=None):

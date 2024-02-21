@@ -4,9 +4,12 @@ from datetime import timedelta
 from django.utils import timezone
 from setup.choices import (LISTA_UFS_SIGLAS, LISTA_TEXTURA_SOLO, LISTA_MESES, 
                            ESPECIES_ANIMAIS, ESPECIES_VEGETAIS, LOCAL_PREPARO_AMOSTRAS,
-                           STATUS_CONTRATOS_TECNICOS, FORMACAO_TECNICA
+                           STATUS_CONTRATOS_TECNICOS, FORMACAO_TECNICA, PERIODO_CLIMATICO,
+                           CICLO_FASES, CILCO_TIPO_ATIVIDADE, CICLO_STATUS_ATIVIDADE,
+                           TIPO_ESPECIE
                         )
 
+#URT
 class URTs(models.Model):
     #relacionamento
     usuario_registro = models.ForeignKey(Usuarios, on_delete=models.DO_NOTHING, related_name='usuario_urt_registro')
@@ -118,6 +121,8 @@ class URTs(models.Model):
     def __str__(self):
         return f"URT: {self.municipio}-{self.uf}"
 
+
+#ESPÉCIES VEGETAIS E ANIMAIS
 class URTespecieVegetal(models.Model):
     #relacionamento
     usuario_registro = models.ForeignKey(Usuarios, on_delete=models.DO_NOTHING, related_name='usuario_urt_vegetal_registro')
@@ -225,6 +230,8 @@ class URTespecieAnimal(models.Model):
     def __str__(self):
         return f"URT: {self.urt.municipio}-{self.urt.uf} - Espécies Animais: {self.especie_animal}"
 
+
+#TÉCNICOS DA URT
 class TecnicoURT (models.Model):
     #relacionamento
     usuario_registro = models.ForeignKey(Usuarios, on_delete=models.DO_NOTHING, related_name='usuario_urt_tecnico_registro')
@@ -286,4 +293,221 @@ class TecnicoURT (models.Model):
 
     def __str__(self):
         return f"URT: {self.urt.municipio}-{self.urt.uf} - Técnico: {self.tecnico}"
+
+
+#CICLOS
+class Ciclo (models.Model):
+    #relacionamento
+    usuario_registro = models.ForeignKey(Usuarios, on_delete=models.DO_NOTHING, related_name='usuario_ciclo_registro')
+    usuario_atualizacao = models.ForeignKey(Usuarios, on_delete=models.DO_NOTHING, related_name='usuario_ciclo_edicao')
+    
+    #log
+    registro_data = models.DateTimeField(auto_now_add=True)
+    ult_atual_data = models.DateTimeField(auto_now=True)
+    log_n_edicoes = models.IntegerField(default=1)
+
+    #dados do ciclo
+    numero_ciclo = models.IntegerField(null=False, blank=False)
+    
+    #datas
+    fase1_inicio = models.DateField(null=True, blank=True)
+    fase1_fim = models.DateField(null=True, blank=True)
+    fase2_inicio = models.DateField(null=True, blank=True)
+    fase2_fim = models.DateField(null=True, blank=True)
+    fase3_inicio = models.DateField(null=True, blank=True)
+    fase3_fim = models.DateField(null=True, blank=True)
+    
+    #observacoes
+    observacoes_gerais = models.TextField(null=True, blank=True, default='Sem observações.')
+
+    #relacionamento
+    urt = models.ForeignKey(URTs, on_delete=models.DO_NOTHING, related_name='urt_ciclo')
+
+    #delete (del)
+    del_status = models.BooleanField(default=False)
+    del_data = models.DateTimeField(null=True, blank=True)
+    del_usuario = models.ForeignKey(Usuarios, on_delete=models.DO_NOTHING, null=True, blank=True, related_name='usuario_ciclo_deletado')
+
+    def save(self, *args, **kwargs):
+        user = kwargs.pop('current_user', None)
+
+        # Se o objeto já tem um ID, então ele já existe no banco de dados
+        if self.id:
+            self.log_n_edicoes += 1
+            if user:
+                self.usuario_atualizacao = user
+        else:
+            if user:
+                self.usuario_registro = user
+                self.usuario_atualizacao = user
+        super(Ciclo, self).save(*args, **kwargs)
+
+    def soft_delete(self, user):
+        self.del_status = True
+        self.del_data = timezone.now()
+        self.del_usuario = user
+        self.save()
+
+    def __str__(self):
+        return f"Ciclo: {self.numero_ciclo}, URT: {self.urt.municipio}-{self.urt.uf}"
+
+class CicloEspeciesVegetaisAnimais (models.Model):
+    #relacionamento
+    usuario_registro = models.ForeignKey(Usuarios, on_delete=models.DO_NOTHING, related_name='usuario_ciclo_especie_registro')
+    usuario_atualizacao = models.ForeignKey(Usuarios, on_delete=models.DO_NOTHING, related_name='usuario_ciclo_especie_edicao')
+    
+    #log
+    registro_data = models.DateTimeField(auto_now_add=True)
+    ult_atual_data = models.DateTimeField(auto_now=True)
+    log_n_edicoes = models.IntegerField(default=1)
+
+    #tipo da espécie
+    tipo_especie = models.CharField(max_length=30, choices=TIPO_ESPECIE, null=False, blank=False)
+
+    #dados da espécie VEGETAL
+    especie_vegetal = models.CharField(max_length=140, choices=ESPECIES_VEGETAIS, null=True, blank=True)
+    variedades = models.CharField(max_length=140, null=True, blank=True)
+    area_utilizada = models.FloatField(null=True, blank=True, default=0)
+    producao_silagem = models.BooleanField(null=True, blank=True)
+
+    #dados da espécie ANIMAL
+    especie_animal = models.CharField(max_length=140, choices=ESPECIES_ANIMAIS, null=False, blank=False)
+    racas = models.CharField(max_length=140, null=True, blank=True)
+    
+    #observacoes
+    observacoes_gerais = models.TextField(null=True, blank=True, default='Sem observações.')
+
+    #relacionamento
+    urt = models.ForeignKey(URTs, on_delete=models.DO_NOTHING, related_name='urt_ciclo_especie')
+    ciclo = models.ForeignKey(Ciclo, on_delete=models.DO_NOTHING, related_name='ciclo_especie')
+
+    #delete (del)
+    del_status = models.BooleanField(default=False)
+    del_data = models.DateTimeField(null=True, blank=True)
+    del_usuario = models.ForeignKey(Usuarios, on_delete=models.DO_NOTHING, null=True, blank=True, related_name='usuario_ciclo_especie_deletado')
+
+    def save(self, *args, **kwargs):
+        user = kwargs.pop('current_user', None)
+
+        # Se o objeto já tem um ID, então ele já existe no banco de dados
+        if self.id:
+            self.log_n_edicoes += 1
+            if user:
+                self.usuario_atualizacao = user
+        else:
+            if user:
+                self.usuario_registro = user
+                self.usuario_atualizacao = user
+        super(CicloEspeciesVegetaisAnimais, self).save(*args, **kwargs)
+
+    def soft_delete(self, user):
+        self.del_status = True
+        self.del_data = timezone.now()
+        self.del_usuario = user
+        self.save()
+
+    def __str__(self):
+        return f"Espécies Vegetais: {self.especie_vegetal}, Variedades: {self.variedades}, Ciclo: {self.ciclo.numero_ciclo}, URT: {self.urt.municipio}-{self.urt.uf}"
+
+class CicloPeriodosClimaticos (models.Model):
+    #relacionamento
+    usuario_registro = models.ForeignKey(Usuarios, on_delete=models.DO_NOTHING, related_name='usuario_ciclo_periodo_registro')
+    usuario_atualizacao = models.ForeignKey(Usuarios, on_delete=models.DO_NOTHING, related_name='usuario_ciclo_periodo_edicao')
+    
+    #log
+    registro_data = models.DateTimeField(auto_now_add=True)
+    ult_atual_data = models.DateTimeField(auto_now=True)
+    log_n_edicoes = models.IntegerField(default=1)
+
+    #dados do Período Climático
+    periodo_climatico = models.CharField(max_length=10, choices=PERIODO_CLIMATICO, null=False, blank=False)
+    data_inicio = models.DateField(null=True, blank=True)
+    data_fim = models.DateField(null=True, blank=True)
+    
+    #observacoes
+    observacoes_gerais = models.TextField(null=True, blank=True, default='Sem observações.')
+
+    #relacionamento
+    urt = models.ForeignKey(URTs, on_delete=models.DO_NOTHING, related_name='urt_ciclo_periodo')
+    ciclo = models.ForeignKey(Ciclo, on_delete=models.DO_NOTHING, related_name='ciclo_periodo')
+
+    #delete (del)
+    del_status = models.BooleanField(default=False)
+    del_data = models.DateTimeField(null=True, blank=True)
+    del_usuario = models.ForeignKey(Usuarios, on_delete=models.DO_NOTHING, null=True, blank=True, related_name='usuario_ciclo_periodo_deletado')
+
+    def save(self, *args, **kwargs):
+        user = kwargs.pop('current_user', None)
+
+        # Se o objeto já tem um ID, então ele já existe no banco de dados
+        if self.id:
+            self.log_n_edicoes += 1
+            if user:
+                self.usuario_atualizacao = user
+        else:
+            if user:
+                self.usuario_registro = user
+                self.usuario_atualizacao = user
+        super(CicloPeriodosClimaticos, self).save(*args, **kwargs)
+
+    def soft_delete(self, user):
+        self.del_status = True
+        self.del_data = timezone.now()
+        self.del_usuario = user
+        self.save()
+
+    def __str__(self):
+        return f"Período Climático: {self.periodo_climatico}, Data: {self.data_inicio}/{self.data_fim}, Ciclo: {self.ciclo.numero_ciclo}, URT: {self.urt.municipio}-{self.urt.uf}"
+
+class CicloAtividades (models.Model):
+    #relacionamento
+    usuario_registro = models.ForeignKey(Usuarios, on_delete=models.DO_NOTHING, related_name='usuario_ciclo_atividade_registro')
+    usuario_atualizacao = models.ForeignKey(Usuarios, on_delete=models.DO_NOTHING, related_name='usuario_ciclo_atividade_edicao')
+    
+    #log
+    registro_data = models.DateTimeField(auto_now_add=True)
+    ult_atual_data = models.DateTimeField(auto_now=True)
+    log_n_edicoes = models.IntegerField(default=1)
+
+    #dados da Atividade
+    fase = models.CharField(max_length=30, choices=CICLO_FASES, null=False, blank=False)
+    data = models.DateField(null=False, blank=False)
+    status = models.CharField(max_length=20, choices=CICLO_STATUS_ATIVIDADE, null=False, blank=False)
+    tipo_atividade = models.CharField(max_length=40, choices=CILCO_TIPO_ATIVIDADE, null=False, blank=False)
+    descricao_atividade = models.TextField(null=True, blank=True, default='Não informado.')
+    
+    #observacoes
+    observacoes_gerais = models.TextField(null=True, blank=True, default='Sem observações.')
+
+    #relacionamento
+    urt = models.ForeignKey(URTs, on_delete=models.DO_NOTHING, related_name='urt_ciclo_atividade')
+    ciclo = models.ForeignKey(Ciclo, on_delete=models.DO_NOTHING, related_name='ciclo_atividade')
+
+    #delete (del)
+    del_status = models.BooleanField(default=False)
+    del_data = models.DateTimeField(null=True, blank=True)
+    del_usuario = models.ForeignKey(Usuarios, on_delete=models.DO_NOTHING, null=True, blank=True, related_name='usuario_ciclo_atividade_deletado')
+
+    def save(self, *args, **kwargs):
+        user = kwargs.pop('current_user', None)
+
+        # Se o objeto já tem um ID, então ele já existe no banco de dados
+        if self.id:
+            self.log_n_edicoes += 1
+            if user:
+                self.usuario_atualizacao = user
+        else:
+            if user:
+                self.usuario_registro = user
+                self.usuario_atualizacao = user
+        super(CicloAtividades, self).save(*args, **kwargs)
+
+    def soft_delete(self, user):
+        self.del_status = True
+        self.del_data = timezone.now()
+        self.del_usuario = user
+        self.save()
+
+    def __str__(self):
+        return f"Atividade: {self.tipo_atividade}, Data: {self.data}, Ciclo: {self.ciclo.numero_ciclo}, URT: {self.urt.municipio}-{self.urt.uf}"
 
