@@ -13,7 +13,7 @@
 
         <div>
             {% with current_url=request.resolver_match.url_name %}
-            <a class="tab {% if current_url in 'urts, urt_ficha' %}active-tab{% endif %}" href="{% url 'urts' %}">URTs</a>
+            <a class="tab {% if current_url in 'urts, urt_ficha, listagem_ciclos_urt, ciclo_urt_ficha' %}active-tab{% endif %}" href="{% url 'urts' %}">URTs</a>
             {% endwith %}    
         </div> 
         

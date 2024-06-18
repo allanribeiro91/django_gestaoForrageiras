@@ -1,0 +1,47 @@
+.botoes {
+    padding:  0.5vh 1.5vw;
+}
+
+.lista_ciclos {
+    padding: 2%;
+}
+
+.item_ciclo {
+    padding: 0px;
+    margin-bottom: 20px;
+    background-color: #e4e4e4;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+
+    display: grid;
+    grid-template-columns: 15% 25% 60%;
+}
+
+.item_ciclo:hover {
+    transform: scale(1.015);
+    cursor: pointer;
+}
+
+.item_ciclo_box {
+    background-color: #e4e4e4;
+    padding: 10px;
+    margin: 0.5vw;
+    border-radius: 5px;
+}
+
+.item_ciclo_box.botoes {
+    display: flex;
+    justify-content: flex-end; /* Alinha o conteúdo à direita */
+    align-items: center; /* Centraliza verticalmente */
+}
+
+.item_ciclo_box_botao {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2px;
+    align-items: center;
+    width: 15%;
+    height: 100%;
+}
+

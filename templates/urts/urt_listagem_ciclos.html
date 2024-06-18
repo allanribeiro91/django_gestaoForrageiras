@@ -1,0 +1,106 @@
+{% extends 'main/base_main.html' %}
+{% load static %}
+{% load humanize %}
+{% block extra_head %}    
+    <link rel="stylesheet" href="{% static 'styles/_tabelas.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/urt_ficha.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/urt_ciclo.css' %}">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+{% endblock %}
+{% block content %}    
+    
+    <!-- Caminho da Área de Trabalho -->
+    <div class="breadcrumb2">
+        <i class="fa-solid fa-seedling"></i>&nbsp;URTs / URT {{ urt.municipio }} / Ciclos de Experimentação
+    </div>
+
+    <!-- Barra Superior -->
+    <div class="barra-superior">
+        <!-- Abas -->
+        <div class="tab-voltar">
+            <a href="{% url 'urts' %}" style="color: black;">
+                <i class="fas fa-arrow-left"></i> 
+            </a>
+        </div>
+        <div class="tabs">
+            <button class="tab-button" id="urt_ficha">Sobre a URT</button>
+            <button class="tab-button active" id="urt_ciclos">Ciclos</button>
+        </div>
+    </div>
+
+    <div class="area-scroll">
+        
+        <!-- Botões -->
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end botoes">           
+            <button type="button" class="btn btn-danger" id="btnBaixarCiclos" style="font-size: 12px; background-color: #039153; border-color: #039153;">
+                <i class="fa-solid fa-arrow-down"></i>
+                &nbsp;Baixar Dados
+            </button>
+            
+            <button class="btn btn-primary me-md-2" type="submit" id="btnNovoCiclo" style="font-size: 12px;">
+                <i class="fa-solid fa-plus"></i>
+                &nbsp;Novo Ciclo
+            </button>
+        </div>
+
+        <!-- Lista de Ciclos -->
+        <div class="lista_ciclos">
+
+            <!-- Ciclo 1 -->
+            <div class="item_ciclo" data-id="1">
+                <div class="item_ciclo_box">
+                    ID: 1<br>
+                    Fase: 2<br>
+                    Nº Ciclo: 3<br>
+                </div>
+                <div class="item_ciclo_box">
+                    Status: <b>Em Execução</b><br>
+                    Data início: 01/06/2024<br>
+                    Data fim: -<br>
+                </div>
+                <div class="item_ciclo_box botoes">
+                    <div class="item_ciclo_box_botao cicloRelatorio" data-id="1">
+                        <i class="fa-regular fa-file-pdf" style="font-size: 2rem;"></i>
+                        Relatório
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ciclo 2 -->
+            <div class="item_ciclo" data-id="2">
+                <div class="item_ciclo_box">
+                    ID: 1<br>
+                    Fase: 2<br>
+                    Nº Ciclo: 2<br>
+                </div>
+                <div class="item_ciclo_box">
+                    Status: <b>Em Execução</b><br>
+                    Data início: 01/06/2024<br>
+                    Data fim: -<br>
+                </div>
+                <div class="item_ciclo_box botoes" >
+                    <div class="item_ciclo_box_botao cicloRelatorio" data-id="2">
+                        <i class="fa-regular fa-file-pdf" style="font-size: 2rem;"></i>
+                        Relatório
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+    
+    <!-- Modal -->
+    {% include "urts/urt_vegetal_modal.html" %}  
+    {% include "urts/urt_animal_modal.html" %}
+    {% include "urts/urt_tecnicos_modal.html" %}
+    {% include "urts/urt_tecnicos_ficha_modal.html" %} 
+
+
+    <!-- Scripts -->
+    <script src="{% static 'js/urt_ciclo.js' %}"></script>
+
+    
+
+{% endblock %}

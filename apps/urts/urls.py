@@ -4,7 +4,7 @@ from apps.urts.views import (urts, urt_ficha,
                              especie_vegetal_salvar, especie_vegetal_modal, especie_vegetal_deletar,
                              especie_animal_salvar, especie_animal_modal, especie_animal_deletar,
                              tecnico_salvar, tecnico_modal, tecnico_deletar,
-                             urt_relatorio_ficha, ciclos_urt
+                             urt_relatorio_ficha, listagem_ciclos_urt, ciclo_urt_ficha
                              )
 
 
@@ -36,7 +36,8 @@ urlpatterns = [
     path('urts/ficha/tecnico/deletar/<int:tecnico_id>/', tecnico_deletar, name='tecnico_deletar'),
 
     #CICLOS DA URT
-    path('urts/ficha/ciclo/', ciclos_urt, name='ciclos_urt'),
+    path('urts/ficha/ciclo/', listagem_ciclos_urt, name='listagem_ciclos_urt'),
+    path('urts/ficha/ciclo/ficha/', ciclo_urt_ficha, name='ciclo_urt_ficha'),
 
 
     #RELATÓRIOS

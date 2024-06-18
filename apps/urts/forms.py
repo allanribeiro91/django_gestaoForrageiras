@@ -2,13 +2,12 @@ from django import forms
 from django_select2.forms import Select2Widget
 from apps.usuarios.models import Usuarios
 from apps.urts.models import (URTs, URTespecieAnimal, URTespecieVegetal, 
-                              TecnicoURT, Ciclo, CicloEspeciesVegetaisAnimais,
-                              CicloAtividades)
+                              TecnicoURT, Ciclo, CicloEspecieVegetal, CicloEspecieAnimal, CicloAtividades)
 from setup.choices import (LISTA_UFS_SIGLAS, LISTA_TEXTURA_SOLO, LISTA_MESES, 
                            ESPECIES_ANIMAIS, ESPECIES_VEGETAIS, LOCAL_PREPARO_AMOSTRAS,
-                           STATUS_CONTRATOS_TECNICOS, FORMACAO_TECNICA,
-                           CICLO_FASES, CICLO_STATUS_ATIVIDADE, CILCO_TIPO_ATIVIDADE,
-                           PERIODO_CLIMATICO
+                           STATUS_CONTRATOS_TECNICOS, FORMACAO_TECNICA, CICLO_STATUS,
+                           CICLO_FASES, CICLO_STATUS_ATIVIDADE, CICLO_TIPO_ATIVIDADE,
+                           PERIODO_CLIMATICO, FASE_PROJETO_FORRAGEIRAS, 
                         )
 
 #URT
@@ -552,12 +551,30 @@ class TecnicoURTForm(forms.ModelForm):
 
 #Ciclos
 class CicloForm(forms.ModelForm):
+    fase_projeto = forms.ChoiceField(
+        choices=FASE_PROJETO_FORRAGEIRAS,
+        widget=forms.Select(attrs={
+            'class': 'form-select',
+            'id': 'ciclo_fase_projeto'
+        }),
+        label='Fase do Projeto',
+        required=True
+    )
     numero_ciclo = forms.IntegerField(
         widget=forms.NumberInput(attrs={
             'class': 'form-control',
             'id': 'id_ciclo'
         }),
         label='Ciclo',
+        required=True
+    )
+    status_ciclo = forms.ChoiceField(
+        choices=CICLO_STATUS,
+        widget=forms.Select(attrs={
+            'class': 'form-select',
+            'id': 'ciclo_status'
+        }),
+        label='Status',
         required=True
     )
     fase1_inicio = forms.DateField(
@@ -619,16 +636,8 @@ class CicloForm(forms.ModelForm):
             ciclo.save()
         return ciclo
     
-class CicloEspeciesVegetaisAnimaisForm(forms.ModelForm):
-    tipo_especie = forms.ChoiceField(
-        choices=ESPECIES_VEGETAIS,
-        widget=forms.Select(attrs={
-            'class': 'form-select',
-            'id': 'ciclo_tipo_especie'
-        }),
-        label='Tipo de Espécie',
-        required=True
-    )
+class CicloEspecieVegetalForm(forms.ModelForm):
+
     area_utilizada = forms.FloatField(
         widget=forms.TextInput(attrs={
             'class': 'form-control',
@@ -664,6 +673,46 @@ class CicloEspeciesVegetaisAnimaisForm(forms.ModelForm):
         label='Produção de Silagem',
         required=False,
     )
+    #relacionamentos
+    urt = forms.ModelChoiceField(
+        queryset=URTs.objects.all(),
+        widget=Select2Widget(attrs={
+            'class': 'form-select',
+        }),
+        label='URT',
+        required=True,
+    )
+    observacoes_gerais = forms.CharField(
+        widget=forms.Textarea(attrs={
+            'class': 'form-control auto-expand',
+            'rows': 1,
+            'style': 'padding-top: 25px; height: 120px;',
+            'id': 'ciclo_especie_vegetal_observacoes'
+            }),
+        required=False,
+        label='Observações Gerais'
+    )
+
+    class Meta:
+        model = CicloEspecieVegetal
+        exclude = ['usuario_registro', 'usuario_atualizacao', 'registro_data', 'ult_atual_data', 'log_n_edicoes', 'del_status', 'del_data', 'del_usuario']
+
+    def save(self, commit=True, *args, **kwargs):
+        ciclo_especie_vegetal = super().save(commit=False, *args, **kwargs)
+        if commit:
+            ciclo_especie_vegetal.save()
+        return ciclo_especie_vegetal
+
+class CicloEspecieAnimalForm(forms.ModelForm):
+    area_utilizada = forms.FloatField(
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'id': 'ciclo_especie_area_utilizada',
+            'style': 'text-align: right !important;'
+        }),
+        label='Área Utilizada (ha)',
+        required=False
+    )
     #dados da espécie animal
     especie_animal = forms.ChoiceField(
         choices=ESPECIES_ANIMAIS,
@@ -696,74 +745,24 @@ class CicloEspeciesVegetaisAnimaisForm(forms.ModelForm):
             'class': 'form-control auto-expand',
             'rows': 1,
             'style': 'padding-top: 25px; height: 120px;',
-            'id': 'ciclo_especie_observacoes_gerais'
+            'id': 'ciclo_especie_animal_observacoes'
             }),
         required=False,
         label='Observações Gerais'
     )
 
     class Meta:
-        model = CicloEspeciesVegetaisAnimais
+        model = CicloEspecieAnimal
         exclude = ['usuario_registro', 'usuario_atualizacao', 'registro_data', 'ult_atual_data', 'log_n_edicoes', 'del_status', 'del_data', 'del_usuario']
 
     def save(self, commit=True, *args, **kwargs):
-        ciclo_especie = super().save(commit=False, *args, **kwargs)
+        ciclo_especie_animal = super().save(commit=False, *args, **kwargs)
         if commit:
-            ciclo_especie.save()
-        return ciclo_especie
-
-class CicloPeriodosClimaticosForm(forms.ModelForm):
-    periodo_climatico = forms.ChoiceField(
-        choices=PERIODO_CLIMATICO,
-        widget=forms.Select(attrs={
-            'class': 'form-select',
-            'id': 'ciclo_periodo_climatico'
-        }),
-        label='Tipo de Espécie',
-        required=True
-    )
-    data_inicio = forms.DateField(
-        widget=forms.DateInput(attrs={
-            'class': 'form-control'
-        })
-    )
-    data_fim = forms.DateField(
-        widget=forms.DateInput(attrs={
-            'class': 'form-control'
-        })
-    )
-    #relacionamentos
-    urt = forms.ModelChoiceField(
-        queryset=URTs.objects.all(),
-        widget=Select2Widget(attrs={
-            'class': 'form-select',
-        }),
-        label='URT',
-        required=True,
-    )
-    observacoes_gerais = forms.CharField(
-        widget=forms.Textarea(attrs={
-            'class': 'form-control auto-expand',
-            'rows': 1,
-            'style': 'padding-top: 25px; height: 120px;',
-            'id': 'ciclo_especie_observacoes_gerais'
-            }),
-        required=False,
-        label='Observações Gerais'
-    )
-
-    class Meta:
-        model = CicloEspeciesVegetaisAnimais
-        exclude = ['usuario_registro', 'usuario_atualizacao', 'registro_data', 'ult_atual_data', 'log_n_edicoes', 'del_status', 'del_data', 'del_usuario']
-
-    def save(self, commit=True, *args, **kwargs):
-        ciclo_periodo_climatico = super().save(commit=False, *args, **kwargs)
-        if commit:
-            ciclo_periodo_climatico.save()
-        return ciclo_periodo_climatico
+            ciclo_especie_animal.save()
+        return ciclo_especie_animal
 
 class CicloAtividadesForm(forms.ModelForm):
-    fase = forms.ChoiceField(
+    ciclo_fase = forms.ChoiceField(
         choices=CICLO_FASES,
         widget=forms.Select(attrs={
             'class': 'form-select',
@@ -787,7 +786,7 @@ class CicloAtividadesForm(forms.ModelForm):
         required=True
     )
     tipo_atividade = forms.ChoiceField(
-        choices=CILCO_TIPO_ATIVIDADE,
+        choices=CICLO_TIPO_ATIVIDADE,
         widget=forms.Select(attrs={
             'class': 'form-select',
             'id': 'ciclo_atividade_tipo'
@@ -804,6 +803,22 @@ class CicloAtividadesForm(forms.ModelForm):
             }),
         required=False,
         label='Descrição da Atividade'
+    )
+    anexo_titulo = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'id': 'ciclo_atividade_anexo_titulo'
+            }),
+        required=False,
+        label='Título do Anexo'
+    )
+    anexo_url = forms.URLField(
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'id': 'ciclo_atividade_anexo_url'
+            }),
+        required=False,
+        label='Url do Anexo'
     )
     #relacionamentos
     urt = forms.ModelChoiceField(

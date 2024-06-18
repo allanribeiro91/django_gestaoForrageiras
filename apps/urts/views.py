@@ -515,8 +515,12 @@ def tecnico_deletar(request, tecnico_id=None):
 
 
 #CICLOS DA URT
-def ciclos_urt(request, id_urt=None):
-    return render(request, 'urts/urt_ciclo.html')
+def listagem_ciclos_urt(request, id_urt=None):
+    return render(request, 'urts/urt_listagem_ciclos.html')
+
+def ciclo_urt_ficha(request, id_urt=None):
+    return render(request, 'urts/urt_ciclo_ficha.html')
+
 
 #RELATÓRIOS
 def urt_relatorio_ficha(request, urt_id=None):

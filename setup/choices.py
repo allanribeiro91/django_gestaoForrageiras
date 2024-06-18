@@ -141,6 +141,19 @@ PERIODO_CLIMATICO = [
     ('seco', 'Seco')
 ]
 
+FASE_PROJETO_FORRAGEIRAS = [
+    ('1.2', 'Fase 1.2'),
+    ('2', 'Fase 2'),
+]
+
+CICLO_STATUS = [
+    ('nao_informado', 'Não informado'),
+    ('em_preparacao', 'Em preparação'),
+    ('em_execucao', 'Em execução'),
+    ('suspenso', 'Suspenso'),
+    ('cancelado', 'Encerrado'),
+]
+
 CICLO_FASES = [
     ('fase_implantacao', 'Implantação'),
     ('fase_manejo', 'Manejo'),
@@ -153,7 +166,7 @@ CICLO_STATUS_ATIVIDADE = [
     ('cancelado', 'Cancelado')
 ]
 
-CILCO_TIPO_ATIVIDADE = [
+CICLO_TIPO_ATIVIDADE = [
     ('coleta_amostras', 'Implantação'),
     ('envio_amostras', 'Manejo'),
     ('manejo_animal', 'Experimentação'),
